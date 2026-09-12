@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NutriCoach — Dis ce que tu manges, il fait le reste</title>
+<meta name="description" content="Coach nutritionnel qui comprend le français normal. Écris « 100 g de poulet et du riz », il calcule tes calories et tes macros et te dit ce qu'il te reste pour la journée.">
+
+<meta property="og:title" content="NutriCoach — Dis ce que tu manges, il fait le reste">
+<meta property="og:description" content="Le suivi nutritionnel sans les formulaires. Tu écris une phrase, l'app comprend et calcule.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+  :root {
+    --bg: #f7f8f6; --surface: #fff; --surface-2: #f0f2ee;
+    --fg: #141713; --muted: #5f665b; --border: #e4e7e0;
+    --primary: #1f8a53; --primary-soft: #e5f4ec; --accent: #e07a2c;
+    --radius: 16px;
+    --max: 1080px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10120f; --surface: #181b16; --surface-2: #1f231c;
+      --fg: #f2f4ef; --muted: #9aa295; --border: #2a2f25;
+      --primary: #3fb772; --primary-soft: #163524; --accent: #f0954a;
+    }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--max); margin: 0 auto; padding-inline: 20px; }
+  a { color: var(--primary); }
+
+  header { padding-block: 20px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.01em; }
+  .mark {
+    width: 30px; height: 30px; border-radius: 9px; background: var(--primary);
+    display: grid; place-items: center; flex: none;
+  }
+  .mark::after {
+    content: ""; width: 13px; height: 13px; border-radius: 50%;
+    border: 3px solid #fff;
+  }
+
+  .hero { padding-block: 48px 40px; }
+  h1 {
+    font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.08;
+    letter-spacing: -.03em; margin: 0 0 18px; max-width: 16ch;
+  }
+  .lead { font-size: clamp(1.05rem, 2.4vw, 1.25rem); color: var(--muted); max-width: 54ch; margin: 0 0 28px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 52px; padding-inline: 26px; border-radius: 999px;
+    font-weight: 600; text-decoration: none; border: 1px solid transparent; cursor: pointer;
+    font-size: 1rem;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--fg); border-color: var(--border); }
+  .note { font-size: .875rem; color: var(--muted); margin-top: 14px; }
+
+  .demo {
+    margin-top: 44px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px; max-width: 560px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px -18px rgba(0,0,0,.25);
+  }
+  .bubble { padding: 11px 15px; border-radius: 16px; margin-bottom: 10px; max-width: 88%; }
+  .bubble.me { background: var(--primary); color: #fff; margin-left: auto; border-bottom-right-radius: 5px; }
+  .bubble.app { background: var(--surface-2); border-bottom-left-radius: 5px; white-space: pre-line; }
+  .bubble:last-child { margin-bottom: 0; }
+
+  section { padding-block: 56px; }
+  h2 { font-size: clamp(1.5rem, 3.6vw, 2.1rem); letter-spacing: -.02em; margin: 0 0 10px; }
+  .section-lead { color: var(--muted); margin: 0 0 32px; max-width: 60ch; }
+
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+  .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .step-n {
+    display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+    background: var(--primary-soft); color: var(--primary); font-weight: 700; font-size: .9rem; margin-bottom: 12px;
+  }
+
+  .plans { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: start; }
+  .plan { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; position: relative; }
+  .plan.featured { border-color: var(--primary); border-width: 2px; }
+  .badge {
+    position: absolute; top: -11px; left: 26px; background: var(--primary); color: #fff;
+    font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    padding: 4px 11px; border-radius: 999px;
+  }
+  .plan h3 { margin: 0 0 4px; font-size: 1.15rem; }
+  .plan .who { color: var(--muted); font-size: .875rem; margin: 0 0 16px; min-height: 2.6em; }
+  .price { font-size: 2.1rem; font-weight: 700; letter-spacing: -.02em; }
+  .price span { font-size: .95rem; font-weight: 400; color: var(--muted); }
+  .plan ul { list-style: none; padding: 0; margin: 18px 0 0; }
+  .plan li { padding-left: 26px; position: relative; margin-bottom: 10px; font-size: .935rem; }
+  .plan li::before {
+    content: "✓"; position: absolute; left: 0; top: -1px; color: var(--primary); font-weight: 700;
+  }
+  .plan li.muted { color: var(--muted); }
+  .plan li.muted::before { content: "—"; color: var(--muted); font-weight: 400; }
+  .plan li.soon::before { content: "◷"; color: var(--accent); }
+
+  details {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 18px; margin-bottom: 10px;
+  }
+  summary { cursor: pointer; font-weight: 600; }
+  details p { color: var(--muted); margin: 12px 0 0; }
+
+  .signup { background: var(--primary-soft); border-radius: var(--radius); padding: 36px 26px; text-align: center; }
+  .signup h2 { margin-bottom: 8px; }
+  .signup form { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 22px; }
+  .signup input {
+    min-height: 52px; padding-inline: 18px; border-radius: 999px; font-size: 1rem;
+    border: 1px solid var(--border); background: var(--surface); color: var(--fg); min-width: 260px; flex: 1 1 260px; max-width: 380px;
+  }
+
+  footer { border-top: 1px solid var(--border); padding-block: 30px 46px; color: var(--muted); font-size: .875rem; }
+  footer p { margin: 0 0 10px; }
+  .legal { font-size: .8rem; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="brand"><span class="mark" aria-hidden="true"></span> NutriCoach</div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <h1>Dis ce que tu manges. Il fait le reste.</h1>
+    <p class="lead">
+      Les applis de suivi nutritionnel te font chercher chaque aliment dans une liste et remplir cinq champs.
+      NutriCoach lit une phrase en français normal, identifie les aliments, et calcule.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#liste">Rejoindre la liste d'attente</a>
+      <a class="btn btn-ghost" href="#tarifs">Voir les formules</a>
+    </div>
+    <p class="note">Bêta privée. Pas de carte bancaire, pas d'engagement.</p>
+
+    <div class="demo" role="img" aria-label="Exemple de conversation avec l'application">
+      <div class="bubble me">J'ai mangé 2 œufs et 100 g de pain complet</div>
+      <div class="bubble app">Parfait, je l'ajoute à ton petit-déjeuner. 👍
+
+Environ 418 kcal
+23 g de protéines
+42 g de glucides
+16 g de lipides
+
+Il te reste aujourd'hui :
+1 355 kcal · 104 g de protéines</div>
+    </div>
+  </div>
+
+  <section class="wrap" id="comment">
+    <h2>Trois gestes, pas trente</h2>
+    <p class="section-lead">Le suivi nutritionnel échoue presque toujours pour la même raison : c'est trop long à remplir. On a supprimé le formulaire.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="step-n">1</div>
+        <h3>Tu écris</h3>
+        <p>« Ce midi, 150 g de poulet, 200 g de riz et des brocolis. » Comme tu le dirais à quelqu'un.</p>
+      </div>
+      <div class="card">
+        <div class="step-n">2</div>
+        <h3>L'app comprend</h3>
+        <p>Elle identifie chaque aliment et sa quantité. Si une quantité manque, elle demande — elle n'invente jamais un chiffre.</p>
+      </div>
+      <div class="card">
+        <div class="step-n">3</div>
+        <h3>Tu vois ce qu'il te reste</h3>
+        <p>Calories et macros restantes pour la journée, mises à jour instantanément. Et « qu'est-ce que je peux manger ce soir ? » a une vraie réponse.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="fiable">
+    <h2>Des chiffres qu'on peut justifier</h2>
+    <p class="section-lead">C'est le point sur lequel la plupart des applis restent floues. Pas nous.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Table CIQUAL officielle</h3>
+        <p>Plus de 3 000 aliments issus de la table de composition nutritionnelle de l'ANSES — la référence publique française. Pas des valeurs approximatives trouvées au hasard.</p>
+      </div>
+      <div class="card">
+        <h3>L'IA comprend, le serveur calcule</h3>
+        <p>Le modèle de langage sert uniquement à lire ta phrase. Les calories, elles, sortent d'un calcul déterministe sur la base de données. Un modèle ne peut pas halluciner ton total.</p>
+      </div>
+      <div class="card">
+        <h3>Les grammes font foi</h3>
+        <p>Quand une quantité est estimée (« une assiette », « 2 œufs »), c'est affiché comme estimé. Tu sais toujours quel chiffre est solide et lequel ne l'est pas.</p>
+      </div>
+      <div class="card">
+        <h3>Tes données restent les tiennes</h3>
+        <p>Export complet en un clic, suppression définitive du compte en un clic. Pas de revente de données, pas de publicité.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="tarifs">
+    <h2>Formules</h2>
+    <p class="section-lead">
+      Le suivi de base est gratuit et le restera : journal, objectifs, base CIQUAL complète.
+      Ce qui se paie, c'est la compréhension avancée du langage naturel — parce qu'elle tourne sur un vrai modèle, et que ça a un coût réel.
+    </p>
+
+    <div class="plans">
+      <div class="plan">
+        <h3>Découverte</h3>
+        <p class="who">Pour voir si le suivi quotidien tient dans ta routine.</p>
+        <div class="price">0 €<span> / toujours</span></div>
+        <ul>
+          <li>Objectifs calculés (Mifflin-St Jeor)</li>
+          <li>Journal et tableau de bord illimités</li>
+          <li>Base CIQUAL complète (3 000+ aliments)</li>
+          <li>Analyse de phrases <strong>basique</strong></li>
+          <li>Historique 7 jours</li>
+          <li class="muted">Compréhension avancée du langage</li>
+          <li class="muted">Suivi du poids et tendances</li>
+        </ul>
+      </div>
+
+      <div class="plan featured">
+        <span class="badge">Le plus utile</span>
+        <h3>Coach</h3>
+        <p class="who">Pour qui suit ses macros sérieusement, tous les jours.</p>
+        <div class="price">4,99 €<span> / mois</span></div>
+        <ul>
+          <li>Tout Découverte, plus&nbsp;:</li>
+          <li><strong>Compréhension avancée</strong> des phrases (phrases longues, formulations libres)</li>
+          <li>Historique illimité et graphiques</li>
+          <li>Suivi du poids et tendance réelle</li>
+          <li>Recettes filtrées selon ce qu'il te reste</li>
+          <li>Allergies et régime respectés strictement</li>
+          <li>Export de tes données</li>
+        </ul>
+      </div>
+
+      <div class="plan">
+        <h3>Coach+</h3>
+        <p class="who">Pour une préparation suivie, ou un accompagnement à deux.</p>
+        <div class="price">9,99 €<span> / mois</span></div>
+        <ul>
+          <li>Tout Coach, plus&nbsp;:</li>
+          <li>Objectifs adaptatifs selon ta progression réelle</li>
+          <li>Bilan hebdomadaire commenté</li>
+          <li class="soon">Périodes programmées (sèche, prise de masse)</li>
+          <li class="soon">Partage avec un coach ou un diététicien</li>
+          <li>Support prioritaire</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">◷ Fonctionnalités prévues, pas encore disponibles. Les tarifs de la bêta seront garantis aux premiers inscrits.</p>
+  </section>
+
+  <section class="wrap">
+    <h2>Questions fréquentes</h2>
+    <details>
+      <summary>D'où viennent les valeurs nutritionnelles ?</summary>
+      <p>De la table CIQUAL de l'ANSES, la base officielle française de composition nutritionnelle. Pour les produits de marque absents de CIQUAL, l'application peut compléter via Open Food Facts — et ces valeurs-là sont signalées comme communautaires, donc moins fiables.</p>
+    </details>
+    <details>
+      <summary>Est-ce que l'IA peut se tromper sur mes calories ?</summary>
+      <p>Elle ne les calcule pas. Le modèle de langage transforme ta phrase en liste d'aliments et de quantités, rien de plus. Le calcul est fait ensuite par le serveur à partir de la base de données. Si l'app identifie mal un aliment, tu le vois et tu le corriges avant validation.</p>
+    </details>
+    <details>
+      <summary>Est-ce une application médicale ?</summary>
+      <p>Non. NutriCoach est un outil de suivi, pas un dispositif médical et pas un avis diététique personnalisé. Les objectifs proposés reposent sur des formules publiques standard, avec des planchers de sécurité. En cas de pathologie, de grossesse, ou d'objectif de perte importante, parles-en à un professionnel de santé.</p>
+    </details>
+    <details>
+      <summary>Et si je suis allergique ?</summary>
+      <p>Tu déclares tes allergies et les suggestions de repas les respectent strictement. Attention cependant : pour les milliers d'aliments importés, les étiquettes d'allergènes sont déduites automatiquement et ne sont pas vérifiées une par une. C'est une aide, jamais un substitut à la lecture d'une étiquette pour une allergie grave.</p>
+    </details>
+    <details>
+      <summary>Que deviennent mes données ?</summary>
+      <p>Elles servent à faire fonctionner ton suivi, point. Tu peux tout exporter ou tout supprimer définitivement depuis les réglages, sans passer par le support.</p>
+    </details>
+  </section>
+
+  <section class="wrap" id="liste">
+    <div class="signup">
+      <h2>Rejoindre la bêta</h2>
+      <p class="section-lead" style="margin: 0 auto;">Places limitées. On prévient dès que ton accès est prêt — et le tarif de lancement reste acquis.</p>
+      <form action="#" method="post" onsubmit="alert('Formulaire à connecter : voir docs/README-landing.md'); return false;">
+        <input type="email" name="email" placeholder="ton@email.com" required aria-label="Adresse e-mail">
+        <button class="btn btn-primary" type="submit">Je veux tester</button>
+      </form>
+      <p class="note">Un seul e-mail au lancement. Désinscription en un clic.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p><strong>NutriCoach</strong> — suivi nutritionnel, pas un dispositif médical.</p>
+  <p class="legal">
+    Données nutritionnelles : table Ciqual © ANSES, réutilisée sous Licence Ouverte (etalab).
+    Données produits complémentaires : Open Food Facts, sous licence ODbL.
+    Ces sources ne cautionnent ni ne valident cette application.
+  </p>
+</footer>
+
+</body>
+</html>
