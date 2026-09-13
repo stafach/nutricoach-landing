@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NutriCoach — Dis ce que tu manges. Il fait le reste.</title>
-<meta name="description" content="Écris « 150 g de poulet, du riz et des brocolis ». NutriCoach comprend la phrase, retrouve les aliments dans la table CIQUAL de l'ANSES et calcule ce qu'il te reste pour la journée.">
+<title>NutriCoach — Dis-moi ce que tu as mangé. Je m'occupe du reste.</title>
+<meta name="description" content="Décris simplement tes repas. NutriCoach calcule tes calories et tes macros à partir de la table CIQUAL de l'ANSES, et t'aide à choisir quoi manger ensuite.">
 <meta name="theme-color" content="#F8F6F1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#12140F" media="(prefers-color-scheme: dark)">
 
-<meta property="og:title" content="NutriCoach — Dis ce que tu manges. Il fait le reste.">
+<meta property="og:title" content="NutriCoach — Dis-moi ce que tu as mangé. Je m'occupe du reste.">
 <meta property="og:description" content="Le suivi alimentaire sans les formulaires. Une phrase suffit.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
@@ -280,6 +280,27 @@ section { padding-block: clamp(var(--s8), 11vw, var(--s10)); }
 .macro-line b { font-weight: 650; font-variant-numeric: tabular-nums; }
 .left-today { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); font-size: .9rem; }
 .left-today .v { font-weight: 650; font-variant-numeric: tabular-nums; }
+
+/* dernière étape de la démo : « Que puis-je manger ? » */
+.ask-next {
+  margin-top: 10px; width: 100%; text-align: left;
+  border: 1px solid var(--line); background: var(--card);
+  color: var(--fg); border-radius: 12px; padding: 11px 13px;
+  font: inherit; font-weight: 600; font-size: .92rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  min-height: 44px;
+}
+.ask-next:hover { border-color: var(--green); color: var(--green); }
+.ask-next .arrow { transition: transform .18s ease; }
+.ask-next:hover .arrow { transform: translateX(3px); }
+.sugg { margin-top: 9px; display: grid; gap: 7px; }
+.sugg-row {
+  border: 1px solid var(--line); border-radius: 12px; padding: 9px 11px;
+  background: var(--card); display: grid; gap: 2px;
+}
+.sugg-row .nm { font-weight: 650; font-size: .9rem; }
+.sugg-row .mx { font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.sugg-row .af { font-size: .76rem; color: var(--green); font-variant-numeric: tabular-nums; }
 
 /* question de clarification : le moment où NutriCoach refuse de deviner */
 .ask { border: 1.5px solid var(--wheat-ink); border-radius: var(--r-md); padding: 13px 15px; background: var(--surface); }
@@ -716,13 +737,13 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
     <div class="wrap hero-grid">
       <div>
         <p class="eyebrow">Suivi alimentaire en français</p>
-        <h1>Dis ce que tu manges. Il fait le reste.</h1>
+        <h1>Dis-moi ce que tu as mangé. Je m'occupe du reste.</h1>
         <p class="lede">
-          Pas de recherche d'aliment, pas de menus déroulants, pas cinq champs à remplir.
-          Tu écris ta phrase comme tu la dirais. Le reste se fait tout seul.
+          Décris simplement tes repas. NutriCoach calcule tes calories et tes macros,
+          et t'aide à choisir quoi manger ensuite.
         </p>
         <div class="hero-cta">
-          <a class="btn" id="hero-open" href="https://nutricoach-pearl.vercel.app">Ouvrir NutriCoach <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn" id="hero-open" href="https://nutricoach-pearl.vercel.app">Commencer gratuitement <span class="arrow" aria-hidden="true">→</span></a>
           <a class="btn btn-ghost" href="#comment">Voir comment ça marche</a>
         </div>
         <div class="proofs">
@@ -1165,72 +1186,85 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
   <section class="wrap" id="tarifs">
     <div class="sec-head wide rv">
       <p class="eyebrow">Tarifs</p>
-      <h2>Gratuit aujourd'hui. Sans astérisque.</h2>
+      <h2>Choisis ton niveau de coaching.</h2>
       <p class="lede">
-        Une seule formule existe pour l'instant, et elle ne coûte rien : journal, objectifs,
-        tableau de bord, coach et base CIQUAL complète. Les formules payantes ci-dessous sont
-        prévues, pas encore disponibles — on préfère l'écrire que le laisser deviner.
+        Le journal, les objectifs et la base CIQUAL sont gratuits et le resteront. Les formules
+        Coach et Premium existent dans l'application, mais <b>aucun paiement n'est en place</b> :
+        personne ne peut être débité aujourd'hui.
       </p>
     </div>
 
     <div class="plans">
-      <div class="plan best rv">
+      <div class="plan rv">
         <span class="tag">Disponible</span>
-        <h3>Découverte</h3>
-        <p class="who">Tout ce qui fonctionne aujourd'hui dans NutriCoach.</p>
+        <h3>Gratuit</h3>
+        <p class="who">Pour essayer et tenir son journal.</p>
         <div class="price"><span class="amt">0 €</span><span class="per">sans carte bancaire</span></div>
-        <a class="btn" href="#poche">Installer NutriCoach <span class="arrow" aria-hidden="true">&#8594;</span></a>
+        <a class="btn btn-ghost" href="#poche">Commencer <span class="arrow" aria-hidden="true">&#8594;</span></a>
         <ul>
           <li>Objectifs calculés selon ton profil</li>
-          <li>Journal et tableau de bord illimités</li>
+          <li>Journal alimentaire complet</li>
           <li>Base CIQUAL complète (3 000+ aliments)</li>
         </ul>
         <button type="button" class="more-btn" aria-expanded="false" aria-controls="more-1">
           <span class="chev" aria-hidden="true">+</span><span>Voir le détail</span>
         </button>
         <div class="more" id="more-1"><div><ul>
-          <li>Coach conversationnel</li>
-          <li>Suivi du poids et tendance</li>
+          <li>3 analyses de phrase par jour</li>
+          <li>Historique sur 7 jours</li>
+          <li>3 suggestions « Que puis-je manger ? »</li>
           <li>Allergies et régime respectés</li>
           <li>Export et suppression de tes données</li>
           <li>Installable sur ton téléphone</li>
         </ul></div></div>
-        <p class="head-note">Rien n'est bridé, rien n'expire.</p>
+        <p class="head-note">Rien n'expire, aucune carte demandée.</p>
       </div>
 
-      <div class="plan rv">
-        <h3>Coach <span class="badge">bientôt</span></h3>
-        <p class="who">Des phrases plus longues et plus libres, comprises par un modèle de langage.</p>
-        <div class="price"><span class="amt">4,99 €</span><span class="per">/ mois &middot; prix indicatif</span></div>
-        <span class="btn btn-ghost" aria-disabled="true" style="cursor:default;opacity:.62">Pas encore ouvert</span>
+      <div class="plan best rv">
+        <span class="tag">Le plus populaire</span>
+        <h3>Coach</h3>
+        <p class="who">Le coach qui répond, tous les jours.</p>
+        <div class="price"><span class="amt">5,99 €</span><span class="per">/ mois &middot; ou 49,99 € / an</span></div>
+        <span class="btn btn-ghost" aria-disabled="true" style="cursor:default;opacity:.62">Paiement pas encore ouvert</span>
         <ul>
-          <li class="soon">Formulations libres et phrases complexes</li>
-          <li class="soon">Historique illimité et courbes</li>
-          <li class="soon">Idées de repas selon ce qu'il te reste</li>
+          <li>Analyses de phrase illimitées</li>
+          <li>Suggestions selon tes macros restantes</li>
+          <li>Contraintes libres : temps, ingrédients, budget calorique</li>
         </ul>
+        <button type="button" class="more-btn" aria-expanded="false" aria-controls="more-2">
+          <span class="chev" aria-hidden="true">+</span><span>Voir le détail</span>
+        </button>
+        <div class="more" id="more-2"><div><ul>
+          <li>Historique complet</li>
+          <li>Suivi du poids et graphiques</li>
+          <li>Recettes favorites</li>
+          <li>Ajustement d'objectif proposé selon ta courbe de poids</li>
+        </ul></div></div>
         <p class="head-note">
-          Pourquoi ce serait payant : comprendre une phrase libre demande un vrai modèle de
-          langage, qui a un coût par requête. Le reste n'a aucune raison de l'être.
+          Ces fonctions sont déjà codées et activables dans l'application. Le prix est affiché
+          pour ce qu'il sera ; il n'est prélevé nulle part.
         </p>
       </div>
 
       <div class="plan rv">
-        <h3>Coach+ <span class="badge">bientôt</span></h3>
-        <p class="who">Pour une préparation suivie, ou un accompagnement à deux.</p>
-        <div class="price"><span class="amt">9,99 €</span><span class="per">/ mois &middot; prix indicatif</span></div>
-        <span class="btn btn-ghost" aria-disabled="true" style="cursor:default;opacity:.62">Pas encore ouvert</span>
+        <h3>Premium <span class="badge">bientôt</span></h3>
+        <p class="who">Pour aller plus loin, quand ce sera prêt.</p>
+        <div class="price"><span class="amt">9,99 €</span><span class="per">/ mois &middot; ou 79,99 € / an</span></div>
+        <span class="btn btn-ghost" aria-disabled="true" style="cursor:default;opacity:.62">Pas encore développé</span>
         <ul>
-          <li class="soon">Objectifs qui s'ajustent à ta progression</li>
-          <li class="soon">Bilan hebdomadaire</li>
-          <li class="soon">Périodes programmées (sèche, prise de masse)</li>
-          <li class="soon">Partage avec un coach ou un diététicien</li>
+          <li class="soon">Plan alimentaire quotidien et hebdomadaire</li>
+          <li class="soon">Liste de courses générée</li>
+          <li class="soon">Mode restaurant</li>
         </ul>
-        <p class="head-note">Aucun moyen de paiement n'est en place : personne ne peut être débité.</p>
+        <p class="head-note">
+          Contrairement aux deux autres, ces fonctions <b>n'existent pas encore</b> : seule la
+          place leur est réservée dans l'application.
+        </p>
       </div>
     </div>
     <p class="plans-foot">
-      Les lignes marquées « bientôt » n'existent pas encore. Tant qu'un moyen de paiement n'est
-      pas branché, seule la formule gratuite est réellement utilisable.
+      Les lignes marquées « bientôt » n'existent pas encore. Aucun moyen de paiement n'est
+      branché : aujourd'hui, tout ce qui est codé est utilisable sans payer.
     </p>
   </section>
 
@@ -1523,6 +1557,16 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
      kcal = somme(valeur pour 100 g × grammes / 100). Objectif de
      référence : 2 100 kcal et 130 g de protéines sur une journée vierge.
      ================================================================ */
+  /* Trois recettes réelles de NutriCoach, avec les totaux que l'application
+     calcule elle-même à partir de leurs ingrédients (CIQUAL). Le « il te
+     resterait » n'est pas écrit ici : il est calculé plus bas à partir du
+     reste de la journée, pour qu'il ne puisse pas diverger. */
+  var SUGGESTIONS = [
+    { n: "Poulet, riz et brocolis",                    kcal: 603, p: 57, c: 67, l: 10, min: 15 },
+    { n: "Cabillaud, pommes de terre, haricots verts", kcal: 407, p: 36, c: 39, l: 10, min: 25 },
+    { n: "Wrap poulet crudit\u00e9s",                     kcal: 379, p: 46, c: 35, l: 4,  min: 10 }
+  ];
+
   var DEMOS = {
     a: {
       phrase: "J'ai mangé 2 œufs et 100 g de pain complet",
@@ -1610,7 +1654,35 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
       $$("[data-count]", box).forEach(countUp);
       sr.textContent = "Résultat : " + macros.kcal + " kilocalories. Il reste " + left.kcal +
                        " kilocalories et " + left.p + " grammes de protéines pour la journée.";
+
+      later(function () { offerSuggestions(left); }, reduce ? 0 : 460);
     }, reduce ? 0 : 520);
+  }
+
+  /* « Et quand tu ne sais pas quoi manger… demande. » — la seconde moitié
+     du produit, montrée plutôt que décrite. */
+  function offerSuggestions(left) {
+    var btn = add(el("button", "ask-next",
+      '<span>Que puis-je manger ?</span><span class="arrow" aria-hidden="true">&#8594;</span>'));
+    btn.type = "button";
+
+    btn.addEventListener("click", function () {
+      btn.remove();
+      clearTimers();
+      var box = add(el("div", "sugg"));
+      SUGGESTIONS.forEach(function (sg) {
+        var after = left.kcal - sg.kcal;   // jamais écrit en dur : toujours dérivé
+        var row = el("div", "sugg-row");
+        row.innerHTML =
+          '<span class="nm">' + esc(sg.n) + '</span>' +
+          '<span class="mx">' + sg.kcal + ' kcal &middot; ' + sg.p + ' P &middot; ' +
+            sg.c + ' G &middot; ' + sg.l + ' L &middot; ' + sg.min + ' min</span>' +
+          '<span class="af">Il te resterait ' + after + ' kcal apr\u00e8s</span>';
+        box.appendChild(row);
+      });
+      sr.textContent = "Trois suggestions adapt\u00e9es \u00e0 ce qu'il te reste : " +
+        SUGGESTIONS.map(function (sg) { return sg.n + ", " + sg.kcal + " kilocalories"; }).join(" ; ") + ".";
+    });
   }
 
   function askQuantity(ask) {

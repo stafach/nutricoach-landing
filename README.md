@@ -37,6 +37,43 @@ Ce qui donne, et ce qui est affiché partout :
 Si tu modifies un repas, refais toute la chaîne : anneau (`data-count="921"` + le `921 / 2100`
 dans le script), barres (`data-fill`), lignes de repas, et les `aria-label` des deux maquettes.
 
+### Les trois suggestions de fin de démo
+
+Le dernier écran de la démo (« Que puis-je manger ? ») affiche trois **vraies** recettes de
+l'application, avec les totaux que celle-ci calcule depuis leurs ingrédients :
+
+| Recette | kcal | P | G | L | min |
+|---|---|---|---|---|---|
+| Poulet, riz et brocolis | 603 | 57 | 67 | 10 | 15 |
+| Cabillaud, pommes de terre, haricots verts | 407 | 36 | 39 | 10 | 25 |
+| Wrap poulet crudités | 379 | 46 | 35 | 4 | 10 |
+
+Ces valeurs sont dans `SUGGESTIONS`, en haut du script. Pour les revérifier après une
+modification du seed de l'application :
+
+```bash
+# dans le dépôt de l'application
+npx tsx -e 'import {PrismaClient} from "@prisma/client"; const p=new PrismaClient();
+(async()=>{for (const r of await p.recipe.findMany()) console.log(r.name, Math.round(r.calories));
+await p.$disconnect();})()'
+```
+
+Le « il te resterait N kcal après » n'est **jamais écrit en dur** : le script le calcule
+(`left.kcal - sg.kcal`) précisément pour qu'il ne puisse pas diverger du reste de la page.
+
+## Règle à ne pas casser : ne rien vendre qui n'existe pas
+
+La section Tarifs affiche trois formules (Gratuit / Coach 5,99 € / Premium 9,99 €) parce que
+le *gating* correspondant est réellement implémenté dans l'application (`src/lib/plan.ts`).
+Deux nuances à ne pas effacer :
+
+- **Aucun paiement n'est branché.** La page le dit deux fois, en haut de la section et en bas.
+  Tant que c'est vrai, ça doit rester écrit : afficher un prix sans cette mention laisserait
+  croire à un débit possible.
+- **Premium n'est pas développé** (plan alimentaire, liste de courses, mode restaurant). Ses
+  lignes portent la classe `.soon` et le badge « bientôt ». Coach, lui, est codé : ses lignes
+  n'ont pas ce badge, et ne doivent pas en prendre un « au cas où ».
+
 ## Accessibilité — vérifié
 
 - Contraste **AA sur les 258 nœuds de texte**, en thème clair **et** sombre.
