@@ -13,53 +13,33 @@ Page statique : **un seul fichier**, aucune dépendance externe, aucun build, au
 - **Zéro carte générique** : sections différenciées par le rythme (colonnes, filets, reçu,
   diptyque), pas par une grille de cartes répétée.
 
-## Règle à ne pas casser : les chiffres doivent se réconcilier
+## Règle à ne pas casser : aucun chiffre n'est saisi à la main
 
-L'argument central de la page est « le calcul ne devine pas ». Tous les nombres affichés
-doivent donc être cohérents entre eux. Ils dérivent d'un seul jeu de valeurs CIQUAL :
-
-| Aliment | /100 g | kcal | P | G | L |
-|---|---|---|---|---|---|
-| Œuf entier cuit | | 145 | 12,6 | 0,3 | 10,3 |
-| Pain complet | | 250 | 9,4 | 41,0 | 3,3 |
-| Blanc de poulet | | 110 | 29,8 | 0 | 1,0 |
-| Riz blanc cuit | | 145 | 2,7 | 30,9 | 0,3 |
-| Brocolis | | 37,6 | 2,8 | 3,1 | 0,4 |
-
-Ce qui donne, et ce qui est affiché partout :
-
-- **Petit-déjeuner** (2 œufs 110 g + pain complet 100 g) → **410 kcal**, 23 P / 41 G / 15 L
-- **Déjeuner** (poulet 150 g + riz 200 g + brocolis 150 g) → **511 kcal**, 54 P / 66 G / 3 L
-  (détail du reçu : 165 + 290 + 56 = 511)
-- **Journée** → 410 + 511 = **921 kcal**, 77 P / 107 G / 18 L sur un objectif 2 100 / 130 / 220 / 70
-- **Reste après le petit-déjeuner** (démo du hero) → 2 100 − 410 = **1 690 kcal**, 130 − 23 = **107 g** de protéines
-
-Si tu modifies un repas, refais toute la chaîne : anneau (`data-count="921"` + le `921 / 2100`
-dans le script), barres (`data-fill`), lignes de repas, et les `aria-label` des deux maquettes.
-
-### Les trois suggestions de fin de démo
-
-Le dernier écran de la démo (« Que puis-je manger ? ») affiche trois **vraies** recettes de
-l'application, avec les totaux que celle-ci calcule depuis leurs ingrédients :
-
-| Recette | kcal | P | G | L | min |
-|---|---|---|---|---|---|
-| Poulet, riz et brocolis | 603 | 57 | 67 | 10 | 15 |
-| Cabillaud, pommes de terre, haricots verts | 407 | 36 | 39 | 10 | 25 |
-| Wrap poulet crudités | 379 | 46 | 35 | 4 | 10 |
-
-Ces valeurs sont dans `SUGGESTIONS`, en haut du script. Pour les revérifier après une
-modification du seed de l'application :
+L'argument central de la page est « le calcul ne devine pas ». **Tous les chiffres
+nutritionnels de cette page sont générés par le dépôt de l'application**, depuis la même
+base CIQUAL et les mêmes règles de calcul que l'application elle-même :
 
 ```bash
-# dans le dépôt de l'application
-npx tsx -e 'import {PrismaClient} from "@prisma/client"; const p=new PrismaClient();
-(async()=>{for (const r of await p.recipe.findMany()) console.log(r.name, Math.round(r.calories));
-await p.$disconnect();})()'
+# dans le dépôt de l'application (app-diet)
+npx tsx scripts/showcase-figures.ts --write   # recalcule et reporte les chiffres ici
+npm run check:landing                         # échoue si cette page dit autre chose
 ```
 
-Le « il te resterait N kcal après » n'est **jamais écrit en dur** : le script le calcule
-(`left.kcal - sg.kcal`) précisément pour qu'il ne puisse pas diverger du reste de la page.
+- Les exemples (phrases, aliments retenus, grammes) sont définis dans
+  `src/server/data/showcase.ts` de l'application. Chaque phrase est dans son corpus de
+  non-régression : si l'application cessait de la comprendre ainsi, ses tests tomberaient.
+- Ici, deux endroits portent des chiffres : le bloc
+  `<script type="application/json" id="showcase-figures">`, lu par le JS des démos, et
+  chaque élément `data-fig="…"` du HTML. **Ne modifie ni l'un ni l'autre à la main.**
+- `check:landing` refuse aussi tout chiffre en kcal écrit hors d'un `data-fig`.
+
+**Pourquoi.** En septembre 2026, cette page annonçait 511 kcal pour « 150 g de poulet,
+200 g de riz et des brocolis » ; l'application en calculait 532. Le tableau de valeurs
+d'ici avait été tapé à la main : poulet à sa valeur crue, œuf et pain complet sur d'autres
+lignes CIQUAL que celles de l'application, brocolis à 150 g quand l'application prend
+80 g sans quantité dite. La même page affirmait aussi que NutriCoach « ne remplit jamais
+un blanc », alors que l'application pré-remplit une portion standard, marquée estimée,
+depuis le 14 septembre. Ces textes ont été corrigés en même temps.
 
 ## Règle à ne pas casser : ne rien vendre qui n'existe pas
 

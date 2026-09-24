@@ -769,7 +769,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
           <p class="composer-lbl" id="chips-lbl">Essaie une phrase</p>
           <div class="chips" role="group" aria-labelledby="chips-lbl">
             <button type="button" class="chip" data-demo="a">2 œufs et 100 g de pain complet</button>
-            <button type="button" class="chip" data-demo="b">150 g de poulet, du riz et des brocolis</button>
+            <button type="button" class="chip" data-demo="b">150 g de poulet, 200 g de riz et des brocolis</button>
             <button type="button" class="chip" data-demo="c">120 g de saumon et du riz</button>
           </div>
           <button type="button" class="replay" id="replay">
@@ -844,7 +844,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
     <div class="sec-head wide rv">
       <p class="eyebrow">Comment ça marche</p>
       <h2>Trois gestes, pas trente.</h2>
-      <p class="lede">Et quand il manque une information, NutriCoach la demande au lieu de l'inventer.</p>
+      <p class="lede">Et quand il manque une information, NutriCoach te le dit au lieu de faire comme si de rien n'était.</p>
     </div>
 
     <div class="steps">
@@ -861,12 +861,12 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
         <h3>NutriCoach comprend</h3>
         <div class="body">
           <ul class="mini">
-            <li><span>Blanc de poulet</span><span class="q">150 g</span></li>
-            <li><span>Riz blanc cuit</span><span class="q unknown">quantité ?</span></li>
+            <li><span>Blanc de poulet cuit</span><span class="q">150 g</span></li>
+            <li><span>Riz blanc cuit</span><span class="q unknown"><span data-fig="meals.steps.lines.1.grams">200</span> g · estimé</span></li>
           </ul>
           <p class="step-note">
-            Aucune quantité pour le riz : NutriCoach <b>demande</b>. Il ne remplit jamais
-            un blanc à ta place.
+            Aucune quantité pour le riz : NutriCoach prend une assiette standard, l'écrit
+            <b>estimé</b> et te laisse la corriger. Rien n'est enregistré sans ton accord.
           </p>
         </div>
       </div>
@@ -875,8 +875,8 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
         <p class="n">03</p>
         <h3>Tu sais où tu en es</h3>
         <div class="body figures">
-          <span class="big"><span data-count="455">0</span> kcal</span>
-          <span class="rest"><span data-count="49">0</span> g protéines · <span data-count="46">0</span> g glucides · <span data-count="2">0</span> g lipides</span>
+          <span class="big"><span data-count="502" data-fig="meals.steps.total.kcal">0</span> kcal</span>
+          <span class="rest"><span data-count="51" data-fig="meals.steps.total.p">0</span> g protéines · <span data-count="64" data-fig="meals.steps.total.c">0</span> g glucides · <span data-count="4" data-fig="meals.steps.total.l">0</span> g lipides</span>
         </div>
       </div>
     </div>
@@ -920,18 +920,18 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
                 <div class="meals">
                   <div class="meal">
                     <span><span class="lbl">Petit-déjeuner</span><span class="items">2 œufs <span class="est">estimé 110 g</span> · Pain complet 100 g</span></span>
-                    <span class="kc">410 kcal</span>
+                    <span class="kc"><span data-fig="meals.breakfast.total.kcal">398</span> kcal</span>
                   </div>
                   <div class="meal">
-                    <span><span class="lbl">Déjeuner</span><span class="items">Blanc de poulet 150 g · Riz 200 g · Brocolis 150 g</span></span>
-                    <span class="kc">511 kcal</span>
+                    <span><span class="lbl">Déjeuner</span><span class="items">Blanc de poulet 150 g · Riz 200 g · Brocolis <span class="est">estimé <span data-fig="meals.lunch.lines.2.grams">80</span> g</span></span></span>
+                    <span class="kc"><span data-fig="meals.lunch.total.kcal">532</span> kcal</span>
                   </div>
                   <div class="meal">
                     <span><span class="lbl">Dîner</span><span class="items" style="color:var(--muted)">Rien encore</span></span>
                     <span class="kc" style="color:var(--muted)">—</span>
                   </div>
                 </div>
-                <div class="meal-total"><span>Total du jour</span><span>921 kcal</span></div>
+                <div class="meal-total"><span>Total du jour</span><span><span data-fig="day.total.kcal">930</span> kcal</span></div>
                 <div class="swipe-hint">
                   <span>Modifier</span><span>Déplacer</span><span>Dupliquer</span><span>Supprimer</span>
                 </div>
@@ -972,22 +972,22 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
                               style="transition: stroke-dashoffset 1300ms cubic-bezier(.22,.9,.3,1)"/>
                     </svg>
                     <div class="inner">
-                      <span class="v"><span data-count="921">0</span></span>
-                      <span class="t">/ 2 100 kcal</span>
+                      <span class="v"><span data-count="930" data-fig="day.total.kcal">0</span></span>
+                      <span class="t">/ <span data-fig="target.calories">2 100</span> kcal</span>
                     </div>
                   </div>
                   <div class="bars">
                     <div>
-                      <div class="bar-top"><span class="lbl">Protéines</span><span class="val">77 / 130 g</span></div>
-                      <div class="track"><div class="fill" data-fill="59" style="background:var(--green)"></div></div>
+                      <div class="bar-top"><span class="lbl">Protéines</span><span class="val"><span data-fig="day.total.p">77</span> / <span data-fig="target.proteinG">130</span> g</span></div>
+                      <div class="track"><div class="fill" data-fill="59" data-fig="day.fillPercent.p" style="background:var(--green)"></div></div>
                     </div>
                     <div>
-                      <div class="bar-top"><span class="lbl">Glucides</span><span class="val">107 / 220 g</span></div>
-                      <div class="track"><div class="fill" data-fill="49" style="background:var(--wheat)"></div></div>
+                      <div class="bar-top"><span class="lbl">Glucides</span><span class="val"><span data-fig="day.total.c">110</span> / <span data-fig="target.carbsG">220</span> g</span></div>
+                      <div class="track"><div class="fill" data-fill="50" data-fig="day.fillPercent.c" style="background:var(--wheat)"></div></div>
                     </div>
                     <div>
-                      <div class="bar-top"><span class="lbl">Lipides</span><span class="val">18 / 70 g</span></div>
-                      <div class="track"><div class="fill" data-fill="26" style="background:var(--clay)"></div></div>
+                      <div class="bar-top"><span class="lbl">Lipides</span><span class="val"><span data-fig="day.total.l">17</span> / <span data-fig="target.fatG">70</span> g</span></div>
+                      <div class="track"><div class="fill" data-fill="24" data-fig="day.fillPercent.l" style="background:var(--clay)"></div></div>
                     </div>
                   </div>
                 </div>
@@ -1023,24 +1023,21 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
                 <div style="display:flex;flex-direction:column;gap:11px">
                   <div class="msg msg-user">Que manger ce soir ?</div>
                   <div class="msg msg-app" style="max-width:100%">
-                    Il te reste <b>1 179 kcal</b> et <b>53 g de protéines</b>.
+                    Il te reste <b><span data-fig="coach.left.kcal">1 170</span> kcal</b> et <b><span data-fig="coach.left.p">53</span> g de protéines</b>.
                     De quoi faire un vrai dîner.
                   </div>
                   <div class="parsed">
                     <div class="parsed-row">
-                      <span class="nm">Saumon, riz et brocolis</span>
-                      <span class="qty">520 kcal</span>
+                      <span class="nm" data-fig="coach.recipes.0.name">Saumon, quinoa et haricots verts</span>
+                      <span class="qty"><span data-fig="coach.recipes.0.kcal">518</span> kcal</span>
                     </div>
                     <div class="parsed-row">
-                      <span class="nm">Omelette et salade verte</span>
-                      <span class="qty">380 kcal</span>
+                      <span class="nm" data-fig="coach.recipes.1.name">Omelette et pain complet</span>
+                      <span class="qty"><span data-fig="coach.recipes.1.kcal">338</span> kcal</span>
                     </div>
                   </div>
-                  <div class="msg msg-user">Et une pizza ?</div>
-                  <div class="msg msg-app" style="max-width:100%">
-                    Une margherita entière, c'est environ 850 kcal. Ça rentre —
-                    il te manquerait surtout des protéines.
-                  </div>
+                  <div class="msg msg-user" data-fig="coach.foodFit.question">Est-ce que je peux manger une pizza ?</div>
+                  <div class="msg msg-app" style="max-width:100%" data-fig="coach.foodFit.sentence">150 g de Pizza (aliment moyen) ≈ 350 kcal.<br>Il te reste 1 170 kcal aujourd’hui.<br>Ça rentre pour une portion normale.</div>
                 </div>
               </div>
               <div class="phone-tabbar" aria-hidden="true">
@@ -1070,18 +1067,18 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
               <div class="phone-top"><span>9:41</span><span class="sig" aria-hidden="true"><i style="height:5px"></i><i style="height:8px"></i><i style="height:11px"></i></span></div>
               <div class="phone-screen">
                 <div class="screen-head"><span class="ttl">Progression</span><span class="sub">7 derniers jours</span></div>
-                <p style="font-size:.82rem;color:var(--muted)">Calories par jour · objectif 2 100</p>
+                <p style="font-size:.82rem;color:var(--muted)">Calories par jour · objectif <span data-fig="target.calories">2 100</span></p>
                 <div class="spark" aria-hidden="true">
                   <div style="height:88%"></div><div style="height:71%"></div><div style="height:95%"></div>
                   <div class="over" style="height:108%"></div><div style="height:64%"></div>
                   <div style="height:82%"></div><div style="height:44%"></div>
                 </div>
                 <div class="spark-x" aria-hidden="true"><span>V</span><span>S</span><span>D</span><span>L</span><span>M</span><span>M</span><span>J</span></div>
-                <p class="sr">Sur sept jours, les apports restent proches de l'objectif de 2 100 kcal, avec un seul jour au-dessus.</p>
+                <p class="sr">Sur sept jours, les apports restent proches de l'objectif de <span data-fig="target.calories">2 100</span> kcal, avec un seul jour au-dessus.</p>
                 <div class="goal-line">
                   <p class="t">Ton poids baisse plus vite que prévu.</p>
-                  <p class="d">On peut remonter l'objectif de 2 100 à 2 200 kcal.</p>
-                  <p class="acts"><span>Accepter</span><span>Garder 2 100</span></p>
+                  <p class="d">On peut remonter l'objectif de <span data-fig="goalAdjust.from">2 100</span> à <span data-fig="goalAdjust.to">2 250</span> kcal.</p>
+                  <p class="acts"><span>Accepter</span><span>Garder <span data-fig="goalAdjust.from">2 100</span></span></p>
                 </div>
               </div>
               <div class="phone-tabbar" aria-hidden="true">
@@ -1145,18 +1142,18 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
         <div class="calc-head">Le détail du calcul, pour ce déjeuner</div>
         <div class="calc-body">
           <div class="calc-row">
-            <span>Blanc de poulet — 150 g<br><span class="src">CIQUAL · 110 kcal / 100 g</span></span>
-            <span class="num">165 kcal</span>
+            <span>Blanc de poulet cuit — 150 g<br><span class="src">CIQUAL · <span data-fig="meals.lunch.lines.0.per100Kcal">141</span> kcal / 100 g</span></span>
+            <span class="num"><span data-fig="meals.lunch.lines.0.kcal">212</span> kcal</span>
           </div>
           <div class="calc-row">
-            <span>Riz blanc cuit — 200 g<br><span class="src">CIQUAL · 145 kcal / 100 g</span></span>
-            <span class="num">290 kcal</span>
+            <span>Riz blanc cuit — 200 g<br><span class="src">CIQUAL · <span data-fig="meals.lunch.lines.1.per100Kcal">145</span> kcal / 100 g</span></span>
+            <span class="num"><span data-fig="meals.lunch.lines.1.kcal">290</span> kcal</span>
           </div>
           <div class="calc-row">
-            <span>Brocolis — 150 g<br><span class="src">CIQUAL · 37,6 kcal / 100 g</span></span>
-            <span class="num">56 kcal</span>
+            <span>Brocolis cuits — <span data-fig="meals.lunch.lines.2.grams">80</span> g, portion estimée<br><span class="src">CIQUAL · <span data-fig="meals.lunch.lines.2.per100Kcal">37,6</span> kcal / 100 g</span></span>
+            <span class="num"><span data-fig="meals.lunch.lines.2.kcal">30</span> kcal</span>
           </div>
-          <div class="calc-total"><span class="lbl">Total</span><span class="num">511 kcal</span></div>
+          <div class="calc-total"><span class="lbl">Total</span><span class="num"><span data-fig="meals.lunch.total.kcal">532</span> kcal</span></div>
         </div>
         <div class="calc-foot">Une multiplication, pas une opinion. Le même repas donnera toujours le même total.</div>
       </div>
@@ -1168,7 +1165,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
         </li>
         <li>
           <span class="ic" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M13 4L6 11.5 3 8.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span><b>Aucune quantité inventée</b><span>Si tu écris « j'ai mangé du poulet » sans préciser, on te demande combien. On ne comble jamais un blanc à ta place.</span></span>
+          <span><b>Aucune quantité cachée</b><span>Si tu écris « j'ai mangé du poulet » sans préciser, NutriCoach prend une portion standard, l'affiche comme une estimation, et te laisse la corriger avant d'enregistrer.</span></span>
         </li>
         <li>
           <span class="ic" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M13 4L6 11.5 3 8.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -1347,7 +1344,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
       </div>
       <div class="qa">
         <button aria-expanded="false"><span>Et si j'oublie de préciser une quantité ?</span><span class="chev" aria-hidden="true">+</span></button>
-        <div class="panel"><div><p>NutriCoach te la demande. Il n'attribue jamais une quantité par défaut à un aliment que tu n'as pas chiffré. Pour les aliments qui se comptent — « 2 œufs », « une banane » — il convertit en grammes et affiche clairement que c'est une estimation, que tu peux corriger.</p></div></div>
+        <div class="panel"><div><p>NutriCoach prend une portion standard — la quantité habituellement consommée en France, d'après l'étude INCA 3 de l'ANSES quand elle existe — et l'affiche clairement comme une estimation. Tu la corriges d'un geste (petit, moyen, grand, ou en grammes) avant d'enregistrer : rien n'entre dans ton journal sans ton accord. Pour les aliments qui se comptent — « 2 œufs », « une banane » — il convertit en grammes, avec la même mention.</p></div></div>
       </div>
       <div class="qa">
         <button aria-expanded="false"><span>Est-ce une application médicale ?</span><span class="chev" aria-hidden="true">+</span></button>
@@ -1402,9 +1399,16 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
   </div>
 </footer>
 
+<!-- Chiffres des démos : GÉNÉRÉS par le dépôt de l'application
+     (npx tsx scripts/showcase-figures.ts --write), vérifiés par
+     npm run check:landing. Ne pas modifier à la main. -->
+<script type="application/json" id="showcase-figures">
+{"target":{"calories":2100,"proteinG":130,"carbsG":220,"fatG":70},"goalAdjust":{"from":2100,"to":2250,"message":"Ton poids baisse plus rapidement que prévu. Veux-tu que je te propose un ajustement de ton objectif calorique ?"},"meals":{"breakfast":{"phrase":"J'ai mangé 2 œufs et 100 g de pain complet","lines":[{"food":"Oeuf","grams":110,"assumed":false,"counted":true,"per100Kcal":140,"kcal":154},{"food":"Pain complet","grams":100,"assumed":false,"counted":false,"per100Kcal":244,"kcal":244}],"total":{"kcal":398,"p":22,"c":45,"l":13},"left":{"kcal":1702,"p":108}},"lunch":{"phrase":"J'ai mangé 150 g de poulet, 200 g de riz et des brocolis","lines":[{"food":"Blanc de poulet cuit","grams":150,"assumed":false,"counted":false,"per100Kcal":141,"kcal":212},{"food":"Riz blanc cuit","grams":200,"assumed":false,"counted":false,"per100Kcal":145,"kcal":290},{"food":"Brocolis cuits","grams":80,"assumed":true,"counted":false,"per100Kcal":37.6,"kcal":30}],"total":{"kcal":532,"p":54,"c":66,"l":4},"left":{"kcal":1568,"p":76}},"steps":{"phrase":"J'ai mangé 150 g de poulet et du riz","lines":[{"food":"Blanc de poulet cuit","grams":150,"assumed":false,"counted":false,"per100Kcal":141,"kcal":212},{"food":"Riz blanc cuit","grams":200,"assumed":true,"counted":false,"per100Kcal":145,"kcal":290}],"total":{"kcal":502,"p":51,"c":64,"l":4},"left":{"kcal":1598,"p":79}},"dinner":{"phrase":"Ce soir, 120 g de saumon et du riz","lines":[{"food":"Saumon, cuit, sans précision (aliment moyen)","grams":120,"assumed":false,"counted":false,"per100Kcal":205,"kcal":246},{"food":"Riz blanc cuit","grams":200,"assumed":true,"counted":false,"per100Kcal":145,"kcal":290}],"total":{"kcal":536,"p":33,"c":64,"l":16},"left":{"kcal":1564,"p":97}}},"day":{"total":{"kcal":930,"p":77,"c":110,"l":17},"target":{"calories":2100,"proteinG":130,"carbsG":220,"fatG":70},"left":{"kcal":1170,"p":53},"fillPercent":{"p":59,"c":50,"l":24,"kcal":44}},"dinnerSizes":[{"size":"small","label":"petit","grams":140,"total":{"kcal":449,"p":32,"c":45,"l":16},"left":{"kcal":1651,"p":98}},{"size":"medium","label":"moyen","grams":200,"total":{"kcal":536,"p":33,"c":64,"l":16},"left":{"kcal":1564,"p":97}},{"size":"large","label":"grand","grams":280,"total":{"kcal":652,"p":36,"c":89,"l":16},"left":{"kcal":1448,"p":94}}],"suggestions":[{"name":"Poulet, riz et brocolis","kcal":603,"p":57,"c":67,"l":10,"min":15},{"name":"Cabillaud, pommes de terre et haricots verts","kcal":407,"p":36,"c":39,"l":10,"min":25},{"name":"Wrap poulet crudités","kcal":379,"p":46,"c":35,"l":4,"min":10}],"coach":{"left":{"kcal":1170,"p":53},"recipes":[{"name":"Saumon, quinoa et haricots verts","kcal":518,"p":36,"c":47,"l":18,"min":25},{"name":"Omelette et pain complet","kcal":338,"p":19,"c":27,"l":16,"min":10}],"foodFit":{"question":"Est-ce que je peux manger une pizza ?","food":"Pizza (aliment moyen)","grams":150,"kcal":350,"sentence":"150 g de Pizza (aliment moyen) ≈ 350 kcal.\nIl te reste 1 170 kcal aujourd’hui.\nÇa rentre pour une portion normale."}},"onboarding":{"phrase":"J'ai mangé 2 œufs, 100 g de pain complet et une pomme","lines":[{"food":"Oeuf","grams":110,"assumed":false,"counted":true,"per100Kcal":140,"kcal":154},{"food":"Pain complet","grams":100,"assumed":false,"counted":false,"per100Kcal":244,"kcal":244},{"food":"Pomme","grams":150,"assumed":false,"counted":true,"per100Kcal":54.9,"kcal":82}],"total":{"kcal":480,"p":23,"c":62,"l":13},"suggestions":[{"name":"Poulet, riz et brocolis","kcal":603,"p":57,"c":67,"l":10,"min":15},{"name":"Cabillaud, pommes de terre et haricots verts","kcal":407,"p":36,"c":39,"l":10,"min":25},{"name":"Wrap poulet crudités","kcal":379,"p":46,"c":35,"l":4,"min":10}]}}
+</script>
 <script>
 (function () {
   "use strict";
+  var FIG = JSON.parse(document.getElementById("showcase-figures").textContent);
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var $  = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -1488,7 +1492,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
     $$("[data-count]", root).forEach(countUp);
     $$(".fill", root).forEach(function (f) { f.style.width = f.getAttribute("data-fill") + "%"; });
     var arc = $("#ring-arc", root);
-    if (arc) arc.style.strokeDashoffset = String(302 - 302 * (921 / 2100));
+    if (arc) arc.style.strokeDashoffset = String(302 - 302 * (FIG.day.total.kcal / FIG.target.calories));
   }
 
   /* ---------------- révélation au scroll ---------------- */
@@ -1561,43 +1565,32 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
      calcule elle-même à partir de leurs ingrédients (CIQUAL). Le « il te
      resterait » n'est pas écrit ici : il est calculé plus bas à partir du
      reste de la journée, pour qu'il ne puisse pas diverger. */
-  var SUGGESTIONS = [
-    { n: "Poulet, riz et brocolis",                    kcal: 603, p: 57, c: 67, l: 10, min: 15 },
-    { n: "Cabillaud, pommes de terre, haricots verts", kcal: 407, p: 36, c: 39, l: 10, min: 25 },
-    { n: "Wrap poulet crudit\u00e9s",                     kcal: 379, p: 46, c: 35, l: 4,  min: 10 }
-  ];
+  var SUGGESTIONS = FIG.suggestions.map(function (r) {
+    return { n: r.name, kcal: r.kcal, p: r.p, c: r.c, l: r.l, min: r.min };
+  });
 
+  function rows(lines) {
+    return lines.map(function (l) { return { n: l.food, q: l.grams + " g", est: l.assumed || l.counted }; });
+  }
+  function demo(meal) {
+    return { phrase: meal.phrase, foods: rows(meal.lines), macros: meal.total, left: meal.left };
+  }
+  /* Démo « c » : le riz sans quantité. NutriCoach pré-remplit une portion
+     standard, la marque « estimé », et propose petit / moyen / grand. */
+  var dinnerFixed = FIG.meals.dinner.lines.filter(function (l) { return !l.assumed; });
+  var dinnerAssumed = FIG.meals.dinner.lines.filter(function (l) { return l.assumed; })[0];
   var DEMOS = {
-    a: {
-      phrase: "J'ai mangé 2 œufs et 100 g de pain complet",
-      foods: [
-        { n: "Œuf", q: "2 · 110 g", est: true },
-        { n: "Pain complet", q: "100 g" }
-      ],
-      macros: { kcal: 410, p: 23, c: 41, l: 15 },
-      left: { kcal: 1690, p: 107 }
-    },
-    b: {
-      phrase: "J'ai mangé 150 g de poulet, 200 g de riz et des brocolis",
-      foods: [
-        { n: "Blanc de poulet", q: "150 g" },
-        { n: "Riz blanc cuit", q: "200 g" },
-        { n: "Brocolis", q: "150 g", est: true }
-      ],
-      macros: { kcal: 511, p: 54, c: 66, l: 3 },
-      left: { kcal: 1589, p: 76 }
-    },
+    a: demo(FIG.meals.breakfast),
+    b: demo(FIG.meals.lunch),
     c: {
-      phrase: "Ce soir, 120 g de saumon et du riz",
-      foods: [{ n: "Saumon cuit", q: "120 g" }],
+      phrase: FIG.meals.dinner.phrase,
+      foods: rows(dinnerFixed),
       ask: {
-        food: "Riz blanc cuit",
-        question: "Quelle quantité de riz ?",
-        options: [
-          { label: "100 g", macros: { kcal: 367, p: 31, c: 31, l: 12 }, left: { kcal: 1733, p: 99 } },
-          { label: "150 g", macros: { kcal: 440, p: 32, c: 46, l: 12 }, left: { kcal: 1660, p: 98 } },
-          { label: "200 g", macros: { kcal: 512, p: 33, c: 62, l: 12 }, left: { kcal: 1588, p: 97 } }
-        ],
+        food: dinnerAssumed.food,
+        question: "Pas de quantité pour le riz : j'ai pris une assiette standard.",
+        options: FIG.dinnerSizes.map(function (o) {
+          return { label: o.label + " · " + o.grams + " g", macros: o.total, left: o.left };
+        }),
         preferred: 1
       }
     }
@@ -1675,9 +1668,9 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
         var row = el("div", "sugg-row");
         row.innerHTML =
           '<span class="nm">' + esc(sg.n) + '</span>' +
-          '<span class="mx">' + sg.kcal + ' kcal &middot; ' + sg.p + ' P &middot; ' +
+          '<span class="mx">' + fmt(sg.kcal) + ' kcal &middot; ' + sg.p + ' P &middot; ' +
             sg.c + ' G &middot; ' + sg.l + ' L &middot; ' + sg.min + ' min</span>' +
-          '<span class="af">Il te resterait ' + after + ' kcal apr\u00e8s</span>';
+          '<span class="af">Il te resterait ' + fmt(after) + ' kcal apr\u00e8s</span>';
         box.appendChild(row);
       });
       sr.textContent = "Trois suggestions adapt\u00e9es \u00e0 ce qu'il te reste : " +
@@ -1689,10 +1682,10 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
     var box = add(el("div", "ask"));
     box.innerHTML =
       '<p class="ask-q">' + esc(ask.question) + '</p>' +
-      '<p class="ask-note">Tu n\'as pas précisé — NutriCoach ne choisit pas à ta place.</p>';
+      '<p class="ask-note">Estimé — corrige si besoin. Rien n\'est enregistré sans toi.</p>';
     var opts = el("div", "ask-opts");
     box.appendChild(opts);
-    sr.textContent = ask.question + " NutriCoach demande la quantité plutôt que de l'inventer.";
+    sr.textContent = ask.question + " La portion est marquée estimée et se corrige avant d'enregistrer.";
 
     var answered = false;
     function answer(i, btn) {
@@ -1705,7 +1698,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
       });
       var chosen = ask.options[i];
       later(function () {
-        add(foodRows([{ n: ask.food, q: chosen.label }]));
+        add(foodRows([{ n: ask.food, q: chosen.label, est: true }]));
         later(function () { showResult(chosen.macros, chosen.left); }, reduce ? 0 : 420);
       }, reduce ? 0 : 260);
     }
