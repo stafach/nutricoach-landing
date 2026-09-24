@@ -43,16 +43,24 @@ depuis le 14 septembre. Ces textes ont été corrigés en même temps.
 
 ## Règle à ne pas casser : ne rien vendre qui n'existe pas
 
-La section Tarifs affiche trois formules (Gratuit / Coach 5,99 € / Premium 9,99 €) parce que
-le *gating* correspondant est réellement implémenté dans l'application (`src/lib/plan.ts`).
-Deux nuances à ne pas effacer :
+Les formules, leurs prix, leurs fonctions et la durée de l'essai sont **générés depuis
+`src/lib/plan.ts` de l'application** (`data-fig="plans.…"`), par le même script que les
+chiffres. `check:landing` échoue si une fonction de l'application manque sur la page, ou si
+la page en affiche une qui n'existe plus.
 
-- **Aucun paiement n'est branché.** La page le dit deux fois, en haut de la section et en bas.
-  Tant que c'est vrai, ça doit rester écrit : afficher un prix sans cette mention laisserait
-  croire à un débit possible.
-- **Premium n'est pas développé** (plan alimentaire, liste de courses, mode restaurant). Ses
-  lignes portent la classe `.soon` et le badge « bientôt ». Coach, lui, est codé : ses lignes
-  n'ont pas ce badge, et ne doivent pas en prendre un « au cas où ».
+L'application n'a que deux formules : Gratuit et la formule payante (Premium est masquée
+dans `plan.ts`). Chaque compte commence par un essai de la formule payante, sans carte ; le
+paiement n'est pas ouvert (`BILLING_ENABLED` baissé). La page le dit, et ne doit rien dire
+d'autre tant que c'est vrai : une version précédente affirmait que « tout ce qui est codé
+est utilisable sans payer », faux depuis que la formule ne s'écrit plus depuis le navigateur.
+
+## Le nom du produit
+
+« NutriCoach » n'est écrit nulle part à la main : chaque occurrence est un
+`<span data-fig="brand.name">`, le titre et les balises meta portent `data-fig` /
+`data-fig-content`, et la valeur vient de `src/lib/brand.ts` de l'application. Pour
+renommer : changer la constante là-bas, puis `npx tsx scripts/showcase-figures.ts --write`.
+`check:landing` refuse le nom écrit en dur hors de ces marqueurs.
 
 ## Accessibilité — vérifié
 

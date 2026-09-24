@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NutriCoach — Dis-moi ce que tu as mangé. Je m'occupe du reste.</title>
-<meta name="description" content="Décris simplement tes repas. NutriCoach calcule tes calories et tes macros à partir de la table CIQUAL de l'ANSES, et t'aide à choisir quoi manger ensuite.">
+<title data-fig="brand.title">NutriCoach — Dis-moi ce que tu as mangé. Je m'occupe du reste.</title>
+<meta name="description" data-fig-content="brand.description" content="Décris simplement tes repas. NutriCoach calcule tes calories et tes macros à partir de la table CIQUAL de l'ANSES, et t'aide à choisir quoi manger ensuite.">
 <meta name="theme-color" content="#F8F6F1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#12140F" media="(prefers-color-scheme: dark)">
 
-<meta property="og:title" content="NutriCoach — Dis-moi ce que tu as mangé. Je m'occupe du reste.">
+<meta property="og:title" data-fig-content="brand.title" content="NutriCoach — Dis-moi ce que tu as mangé. Je m'occupe du reste.">
 <meta property="og:description" content="Le suivi alimentaire sans les formulaires. Une phrase suffit.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
@@ -216,7 +216,12 @@ section { padding-block: clamp(var(--s8), 11vw, var(--s10)); }
 #mobile-menu .btn { width: 100%; margin-top: var(--s5); }
 
 /* ================= hero ================= */
-.hero { padding-block: clamp(var(--s7), 7vw, var(--s9)) clamp(var(--s7), 8vw, var(--s9)); position: relative; }
+/* overflow-x: clip — le halo (::before) déborde de 20 % à droite. Le
+   `overflow-x: hidden` de body le masquait sur ordinateur, mais iOS Safari
+   l'ignore sur body : la page glissait latéralement sur iPhone (78 px à
+   390 px). `clip`, et non `hidden`, pour ne couper que l'horizontale et ne
+   pas créer de conteneur de défilement. */
+.hero { padding-block: clamp(var(--s7), 7vw, var(--s9)) clamp(var(--s7), 8vw, var(--s9)); position: relative; overflow-x: clip; }
 .hero::before {
   content: ""; position: absolute; inset: -10% -20% auto -20%; height: 72%;
   background: radial-gradient(ellipse at 28% 0%, var(--green-soft), transparent 62%);
@@ -399,9 +404,12 @@ section { padding-block: clamp(var(--s8), 11vw, var(--s10)); }
 .figures .rest { font-size: .95rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 
 /* ================= produit : onglets ================= */
-.tabs { margin-top: var(--s7); }
+/* min-width: 0 et max-width : sans eux, le conteneur s'élargissait à la
+   largeur des quatre onglets et la PAGE entière débordait de 78 px à 390 px,
+   au lieu de laisser la barre défiler. */
+.tabs { margin-top: var(--s7); min-width: 0; }
 .tablist {
-  display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
+  display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; max-width: 100%;
   scrollbar-width: none; -ms-overflow-style: none;
 }
 .tablist::-webkit-scrollbar { display: none; }
@@ -539,8 +547,11 @@ section { padding-block: clamp(var(--s8), 11vw, var(--s10)); }
 .facts span { color: var(--muted); font-size: .94rem; }
 
 /* ================= tarifs ================= */
-.plans { display: grid; gap: var(--s5); margin-top: var(--s7); }
-@media (min-width: 940px) { .plans { grid-template-columns: repeat(3, 1fr); align-items: start; gap: var(--s4); } }
+/* minmax(0, 1fr) : sans lui, un mot insécable élargissait les cartes à
+   316 px sur un écran de 320. Deux colonnes : l'application n'a plus que
+   deux formules (lib/plan.ts, Premium masquée). */
+.plans { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s5); margin-top: var(--s7); }
+@media (min-width: 760px) { .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: var(--s4); max-width: 820px; } }
 .plan {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
   padding: var(--s6) var(--s5); display: flex; flex-direction: column; position: relative;
@@ -704,7 +715,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
 
 <nav class="nav" id="nav" aria-label="Navigation principale">
   <div class="wrap nav-in">
-    <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span> NutriCoach</a>
+    <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span> <span data-fig="brand.name">NutriCoach</span></a>
     <div class="nav-links">
       <a href="#comment">Comment ça marche</a>
       <a href="#produit">Le produit</a>
@@ -712,7 +723,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
       <a href="#tarifs">Tarifs</a>
       <a href="#faq">Questions</a>
     </div>
-    <a class="btn btn-sm nav-cta" href="#poche">Installer NutriCoach</a>
+    <a class="btn btn-sm nav-cta" href="#poche">Installer <span data-fig="brand.name">NutriCoach</span></a>
     <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
       <span></span><span></span><span></span>
     </button>
@@ -726,7 +737,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
   <a href="#tarifs">Tarifs</a>
   <a href="#poche">Installer</a>
   <a href="#faq">Questions</a>
-  <a class="btn" href="#poche">Installer NutriCoach</a>
+  <a class="btn" href="#poche">Installer <span data-fig="brand.name">NutriCoach</span></a>
 </div>
 
 <main id="main">
@@ -739,7 +750,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
         <p class="eyebrow">Suivi alimentaire en français</p>
         <h1>Dis-moi ce que tu as mangé. Je m'occupe du reste.</h1>
         <p class="lede">
-          Décris simplement tes repas. NutriCoach calcule tes calories et tes macros,
+          Décris simplement tes repas. <span data-fig="brand.name">NutriCoach</span> calcule tes calories et tes macros,
           et t'aide à choisir quoi manger ensuite.
         </p>
         <div class="hero-cta">
@@ -758,11 +769,11 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
       <div class="device demo">
         <div class="device-bar">
           <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          <span class="device-title">NutriCoach · Aujourd'hui</span>
+          <span class="device-title"><span data-fig="brand.name">NutriCoach</span> · Aujourd'hui</span>
         </div>
 
         <div class="demo-stage" id="stage" aria-live="polite" aria-atomic="false">
-          <p class="sr" id="stage-sr">Démonstration : choisis une phrase ci-dessous pour voir NutriCoach la décomposer.</p>
+          <p class="sr" id="stage-sr">Démonstration : choisis une phrase ci-dessous pour voir <span data-fig="brand.name">NutriCoach</span> la décomposer.</p>
         </div>
 
         <div class="composer">
@@ -809,7 +820,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
     <div class="sec-head rv">
       <p class="eyebrow">Le problème</p>
       <h2>Suivre son alimentation ne devrait pas devenir un deuxième travail.</h2>
-      <p class="lede">La plupart des gens abandonnent au bout de deux semaines. Pas par manque de volonté — parce qu'enregistrer un simple déjeuner prend deux minutes et six écrans.</p>
+      <p class="lede">Beaucoup de gens abandonnent au bout de quelques semaines. Pas par manque de volonté — parce qu'enregistrer un simple déjeuner prend deux minutes et six écrans.</p>
     </div>
 
     <div class="compare">
@@ -832,7 +843,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
           <p class="said">« J'ai mangé 150 g de poulet, 200 g de riz et des brocolis. »</p>
           <p class="done">
             <svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M13 4L6 11.5 3 8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            C'est tout. C'est enregistré.
+            C'est tout. Tu vérifies, tu valides.
           </p>
         </div>
       </div>
@@ -844,7 +855,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
     <div class="sec-head wide rv">
       <p class="eyebrow">Comment ça marche</p>
       <h2>Trois gestes, pas trente.</h2>
-      <p class="lede">Et quand il manque une information, NutriCoach te le dit au lieu de faire comme si de rien n'était.</p>
+      <p class="lede">Et quand il manque une information, <span data-fig="brand.name">NutriCoach</span> te le dit au lieu de faire comme si de rien n'était.</p>
     </div>
 
     <div class="steps">
@@ -858,14 +869,14 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
 
       <div class="step rv">
         <p class="n">02</p>
-        <h3>NutriCoach comprend</h3>
+        <h3><span data-fig="brand.name">NutriCoach</span> comprend</h3>
         <div class="body">
           <ul class="mini">
             <li><span>Blanc de poulet cuit</span><span class="q">150 g</span></li>
             <li><span>Riz blanc cuit</span><span class="q unknown"><span data-fig="meals.steps.lines.1.grams">200</span> g · estimé</span></li>
           </ul>
           <p class="step-note">
-            Aucune quantité pour le riz : NutriCoach prend une assiette standard, l'écrit
+            Aucune quantité pour le riz : <span data-fig="brand.name">NutriCoach</span> prend une assiette standard, l'écrit
             <b>estimé</b> et te laisse la corriger. Rien n'est enregistré sans ton accord.
           </p>
         </div>
@@ -972,8 +983,8 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
                               style="transition: stroke-dashoffset 1300ms cubic-bezier(.22,.9,.3,1)"/>
                     </svg>
                     <div class="inner">
-                      <span class="v"><span data-count="930" data-fig="day.total.kcal">0</span></span>
-                      <span class="t">/ <span data-fig="target.calories">2 100</span> kcal</span>
+                      <span class="v"><span data-count="1170" data-fig="day.left.kcal">0</span></span>
+                      <span class="t">kcal restantes</span>
                     </div>
                   </div>
                   <div class="bars">
@@ -991,7 +1002,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
                     </div>
                   </div>
                 </div>
-                <p class="note-line">Il te reste assez pour un vrai dîner.</p>
+                <p class="note-line" data-fig="home.tip">Il te reste 53 g de protéines à couvrir aujourd'hui. Je peux te proposer un repas qui les apporte.</p>
               </div>
               <div class="phone-tabbar" aria-hidden="true">
                 <span><svg class="ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 3h12v14H4z"/><path d="M7 7h6M7 11h6"/></svg>Journal</span>
@@ -1008,7 +1019,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
           <div class="panel-grid">
             <div class="panel-copy">
               <h3>Une question en français, une réponse utile.</h3>
-              <p>« Que manger ce soir ? », « Est-ce que je peux me prendre une pizza ? » — le coach répond à partir de ce qu'il te reste réellement, pas d'un conseil générique.</p>
+              <p>« Que manger ce soir ? », « Est-ce que je peux manger une pizza ? » — le coach répond à partir de ce qu'il te reste réellement, pas d'un conseil générique.</p>
               <ul class="panel-list">
                 <li>Ce qu'il te reste pour la journée</li>
                 <li>Des idées de repas qui tiennent dans ce budget</li>
@@ -1021,19 +1032,16 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
               <div class="phone-screen">
                 <div class="screen-head"><span class="ttl">Coach</span><span class="sub">Jeudi 12</span></div>
                 <div style="display:flex;flex-direction:column;gap:11px">
-                  <div class="msg msg-user">Que manger ce soir ?</div>
-                  <div class="msg msg-app" style="max-width:100%">
-                    Il te reste <b><span data-fig="coach.left.kcal">1 170</span> kcal</b> et <b><span data-fig="coach.left.p">53</span> g de protéines</b>.
-                    De quoi faire un vrai dîner.
-                  </div>
+                  <div class="msg msg-user" data-fig="coach.question">Que manger ce soir ?</div>
+                  <div class="msg msg-app" style="max-width:100%" data-fig="coach.intro">Il te reste 1 170 kcal.<br><br>Voici ce que je te propose :</div>
                   <div class="parsed">
                     <div class="parsed-row">
-                      <span class="nm" data-fig="coach.recipes.0.name">Saumon, quinoa et haricots verts</span>
-                      <span class="qty"><span data-fig="coach.recipes.0.kcal">518</span> kcal</span>
+                      <span class="nm" data-fig="coach.recipes.0.name">Tofu sauté, riz complet et légumes</span>
+                      <span class="qty"><span data-fig="coach.recipes.0.kcal">758</span> kcal</span>
                     </div>
                     <div class="parsed-row">
-                      <span class="nm" data-fig="coach.recipes.1.name">Omelette et pain complet</span>
-                      <span class="qty"><span data-fig="coach.recipes.1.kcal">338</span> kcal</span>
+                      <span class="nm" data-fig="coach.recipes.1.name">Poulet, riz et brocolis</span>
+                      <span class="qty"><span data-fig="coach.recipes.1.kcal">603</span> kcal</span>
                     </div>
                   </div>
                   <div class="msg msg-user" data-fig="coach.foodFit.question">Est-ce que je peux manger une pizza ?</div>
@@ -1055,7 +1063,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
           <div class="panel-grid">
             <div class="panel-copy">
               <h3>La tendance compte plus qu'une journée.</h3>
-              <p>Le poids bouge tous les jours pour des raisons qui n'ont rien à voir avec ce que tu manges. NutriCoach regarde la tendance, et te propose un ajustement — sans jamais l'appliquer tout seul.</p>
+              <p>Le poids bouge tous les jours pour des raisons qui n'ont rien à voir avec ce que tu manges. <span data-fig="brand.name">NutriCoach</span> regarde la tendance, et te propose un ajustement — sans jamais l'appliquer tout seul.</p>
               <ul class="panel-list">
                 <li>Historique des calories et du poids</li>
                 <li>Un ajustement d'objectif <em>proposé</em>, jamais imposé</li>
@@ -1076,9 +1084,9 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
                 <div class="spark-x" aria-hidden="true"><span>V</span><span>S</span><span>D</span><span>L</span><span>M</span><span>M</span><span>J</span></div>
                 <p class="sr">Sur sept jours, les apports restent proches de l'objectif de <span data-fig="target.calories">2 100</span> kcal, avec un seul jour au-dessus.</p>
                 <div class="goal-line">
-                  <p class="t">Ton poids baisse plus vite que prévu.</p>
-                  <p class="d">On peut remonter l'objectif de <span data-fig="goalAdjust.from">2 100</span> à <span data-fig="goalAdjust.to">2 250</span> kcal.</p>
-                  <p class="acts"><span>Accepter</span><span>Garder <span data-fig="goalAdjust.from">2 100</span></span></p>
+                  <p class="t" data-fig="goalAdjust.message">Ton poids baisse plus rapidement que prévu. Veux-tu que je te propose un ajustement de ton objectif calorique ?</p>
+                  <p class="d">Proposé, jamais appliqué tout seul.</p>
+                  <p class="acts"><span>Ajuster à <span data-fig="goalAdjust.to">2 250</span> kcal</span><span>Ignorer</span></p>
                 </div>
               </div>
               <div class="phone-tabbar" aria-hidden="true">
@@ -1099,7 +1107,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
   <section class="wrap" id="difference">
     <div class="sec-head rv">
       <p class="eyebrow">La différence</p>
-      <h2>Tu écris. NutriCoach comprend.</h2>
+      <h2>Tu écris. <span data-fig="brand.name">NutriCoach</span> comprend.</h2>
     </div>
 
     <div class="split rv">
@@ -1114,7 +1122,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
         <p class="after">Quatre gestes par aliment. Douze pour un repas.</p>
       </div>
       <div class="split-half hl">
-        <h3>NutriCoach</h3>
+        <h3><span data-fig="brand.name">NutriCoach</span></h3>
         <ul class="verbs"><li>Tu écris.</li></ul>
         <p class="after">Une phrase pour le repas entier. Tu vérifies, tu valides.</p>
       </div>
@@ -1135,7 +1143,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
 
       <div class="pull rv">
         <p>La compréhension est la seule chose confiée à la machine. Le calcul, lui, est une multiplication.</p>
-        <p class="who">Le principe de conception de NutriCoach</p>
+        <p class="who">Le principe de conception de <span data-fig="brand.name">NutriCoach</span></p>
       </div>
 
       <div class="calc rv">
@@ -1165,7 +1173,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
         </li>
         <li>
           <span class="ic" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M13 4L6 11.5 3 8.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span><b>Aucune quantité cachée</b><span>Si tu écris « j'ai mangé du poulet » sans préciser, NutriCoach prend une portion standard, l'affiche comme une estimation, et te laisse la corriger avant d'enregistrer.</span></span>
+          <span><b>Aucune quantité cachée</b><span>Si tu écris « j'ai mangé du poulet » sans préciser, <span data-fig="brand.name">NutriCoach</span> prend une portion standard, l'affiche comme une estimation, et te laisse la corriger avant d'enregistrer.</span></span>
         </li>
         <li>
           <span class="ic" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M13 4L6 11.5 3 8.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -1183,85 +1191,76 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
   <section class="wrap" id="tarifs">
     <div class="sec-head wide rv">
       <p class="eyebrow">Tarifs</p>
-      <h2>Choisis ton niveau de coaching.</h2>
+      <h2>Deux formules, rien de caché.</h2>
       <p class="lede">
-        Le journal, les objectifs et la base CIQUAL sont gratuits et le resteront. Les formules
-        Coach et Premium existent dans l'application, mais <b>aucun paiement n'est en place</b> :
-        personne ne peut être débité aujourd'hui.
+        Le journal, les objectifs et la base CIQUAL sont gratuits et le resteront. Chaque compte
+        commence par <span data-fig="plans.trialDays">7</span> jours de <span data-fig="brand.paidPlan">NutriCoach+</span> offerts, sans carte. Le paiement,
+        lui, <b>n'est pas encore ouvert</b> : personne ne peut être débité aujourd'hui, et à la fin
+        de l'essai le compte continue en <span data-fig="plans.free.name">Gratuit</span>, tout seul.
       </p>
     </div>
 
+    <!-- Formules, prix et fonctions GÉNÉRÉS depuis lib/plan.ts de l'application
+         (npx tsx scripts/showcase-figures.ts --write). Ne pas les écrire à la main. -->
     <div class="plans">
       <div class="plan rv">
         <span class="tag">Disponible</span>
-        <h3>Gratuit</h3>
-        <p class="who">Pour essayer et tenir son journal.</p>
+        <h3 data-fig="plans.free.name">Gratuit</h3>
+        <p class="who" data-fig="plans.free.tagline">Pour essayer et tenir son journal.</p>
         <div class="price"><span class="amt">0 €</span><span class="per">sans carte bancaire</span></div>
         <a class="btn btn-ghost" href="#poche">Commencer <span class="arrow" aria-hidden="true">&#8594;</span></a>
         <ul>
-          <li>Objectifs calculés selon ton profil</li>
-          <li>Journal alimentaire complet</li>
-          <li>Base CIQUAL complète (3 000+ aliments)</li>
+          <li data-fig="plans.free.features.0">Profil et objectifs calories / macros</li>
+          <li data-fig="plans.free.features.1">Journal alimentaire complet</li>
+          <li data-fig="plans.free.features.2">Recherche d'aliments (base CIQUAL)</li>
         </ul>
         <button type="button" class="more-btn" aria-expanded="false" aria-controls="more-1">
           <span class="chev" aria-hidden="true">+</span><span>Voir le détail</span>
         </button>
         <div class="more" id="more-1"><div><ul>
-          <li>3 analyses de phrase par jour</li>
-          <li>Historique sur 7 jours</li>
-          <li>3 suggestions « Que puis-je manger ? »</li>
-          <li>Allergies et régime respectés</li>
-          <li>Export et suppression de tes données</li>
-          <li>Installable sur ton téléphone</li>
+          <li data-fig="plans.free.features.3">Ajout manuel</li>
+          <li data-fig="plans.free.features.4">3 analyses en langage naturel par jour</li>
+          <li data-fig="plans.free.features.5">Historique sur 7 jours</li>
+          <li data-fig="plans.free.features.6">Recettes de base</li>
+          <li data-fig="plans.free.features.7">3 suggestions « Que puis-je manger ? »</li>
+          <li data-fig="plans.free.features.8">« D'où vient ce chiffre ? » sur chaque ligne</li>
+          <li data-fig="plans.free.features.9">Conversation conservée</li>
+          <li data-fig="plans.free.features.10">3 repas récurrents</li>
         </ul></div></div>
         <p class="head-note">Rien n'expire, aucune carte demandée.</p>
       </div>
 
       <div class="plan best rv">
-        <span class="tag">Le plus populaire</span>
-        <h3>Coach</h3>
-        <p class="who">Le coach qui répond, tous les jours.</p>
-        <div class="price"><span class="amt">5,99 €</span><span class="per">/ mois &middot; ou 49,99 € / an</span></div>
+        <span class="tag"><span data-fig="plans.trialDays">7</span> jours offerts</span>
+        <h3 data-fig="plans.paid.name">NutriCoach+</h3>
+        <p class="who" data-fig="plans.paid.tagline">Le coach qui répond, tous les jours.</p>
+        <div class="price"><span class="amt"><span data-fig="plans.paid.monthly">5,99</span> €</span><span class="per">/ mois &middot; ou <span data-fig="plans.paid.yearly">49,99</span> € / an</span></div>
         <span class="btn btn-ghost" aria-disabled="true" style="cursor:default;opacity:.62">Paiement pas encore ouvert</span>
         <ul>
-          <li>Analyses de phrase illimitées</li>
-          <li>Suggestions selon tes macros restantes</li>
-          <li>Contraintes libres : temps, ingrédients, budget calorique</li>
+          <li data-fig="plans.paid.features.0">Tout ce que contient l'offre Gratuit</li>
+          <li data-fig="plans.paid.features.1">Analyses en langage naturel illimitées</li>
+          <li data-fig="plans.paid.features.2">Suggestions selon tes macros restantes</li>
         </ul>
         <button type="button" class="more-btn" aria-expanded="false" aria-controls="more-2">
           <span class="chev" aria-hidden="true">+</span><span>Voir le détail</span>
         </button>
         <div class="more" id="more-2"><div><ul>
-          <li>Historique complet</li>
-          <li>Suivi du poids et graphiques</li>
-          <li>Recettes favorites</li>
-          <li>Ajustement d'objectif proposé selon ta courbe de poids</li>
+          <li data-fig="plans.paid.features.3">Contraintes libres : temps, ingrédients, budget calorique</li>
+          <li data-fig="plans.paid.features.4">Historique complet</li>
+          <li data-fig="plans.paid.features.5">Suivi du poids et graphiques</li>
+          <li data-fig="plans.paid.features.6">Recettes favorites</li>
+          <li data-fig="plans.paid.features.7">Ajustement d'objectif proposé selon ta courbe de poids</li>
+          <li data-fig="plans.paid.features.8">Bilan de la semaine</li>
+          <li data-fig="plans.paid.features.9">Repas récurrents illimités</li>
         </ul></div></div>
         <p class="head-note">
-          Ces fonctions sont déjà codées et activables dans l'application. Le prix est affiché
-          pour ce qu'il sera ; il n'est prélevé nulle part.
-        </p>
-      </div>
-
-      <div class="plan rv">
-        <h3>Premium <span class="badge">bientôt</span></h3>
-        <p class="who">Pour aller plus loin, quand ce sera prêt.</p>
-        <div class="price"><span class="amt">9,99 €</span><span class="per">/ mois &middot; ou 79,99 € / an</span></div>
-        <span class="btn btn-ghost" aria-disabled="true" style="cursor:default;opacity:.62">Pas encore développé</span>
-        <ul>
-          <li class="soon">Plan alimentaire quotidien et hebdomadaire</li>
-          <li class="soon">Liste de courses générée</li>
-          <li class="soon">Mode restaurant</li>
-        </ul>
-        <p class="head-note">
-          Contrairement aux deux autres, ces fonctions <b>n'existent pas encore</b> : seule la
-          place leur est réservée dans l'application.
+          Ces fonctions sont codées, et incluses pendant les <span data-fig="plans.trialDays">7</span> premiers jours de chaque
+          compte. Au-delà, elles demanderont l'abonnement — qui n'est pas encore ouvert.
         </p>
       </div>
     </div>
     <p class="plans-foot">
-      Les lignes marquées « bientôt » n'existent pas encore. Aucun moyen de paiement n'est
-      branché : aujourd'hui, tout ce qui est codé est utilisable sans payer.
+      Aucun moyen de paiement n'est branché aujourd'hui. Le prix est affiché pour ce qu'il sera.
     </p>
   </section>
 
@@ -1270,16 +1269,16 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
     <div class="wrap">
       <div class="sec-head wide rv">
         <p class="eyebrow">Sur ton téléphone</p>
-        <h2>NutriCoach dans ta poche.</h2>
+        <h2><span data-fig="brand.name">NutriCoach</span> dans ta poche.</h2>
         <p class="lede">
-          Pas besoin d'App Store. NutriCoach est une application web : tu l'ouvres dans ton
+          Pas besoin d'App Store. <span data-fig="brand.name">NutriCoach</span> est une application web : tu l'ouvres dans ton
           navigateur et tu l'ajoutes à ton écran d'accueil. Elle s'ouvre ensuite comme
           n'importe quelle application, en plein écran, avec sa propre icône.
         </p>
       </div>
 
       <div class="poche-cta rv">
-        <a class="btn" id="open-app" href="https://nutricoach-pearl.vercel.app">Ouvrir NutriCoach <span class="arrow" aria-hidden="true">&#8594;</span></a>
+        <a class="btn" id="open-app" href="https://nutricoach-pearl.vercel.app">Ouvrir <span data-fig="brand.name">NutriCoach</span> <span class="arrow" aria-hidden="true">&#8594;</span></a>
         <span class="hint" id="device-hint">Ouvre ce lien sur ton téléphone pour l'installer.</span>
       </div>
 
@@ -1290,12 +1289,12 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
             iPhone &amp; iPad
           </h3>
           <ol>
-            <li>Ouvre NutriCoach dans <b>Safari</b> — c'est le seul navigateur qui sait installer sur iOS.</li>
+            <li>Ouvre <span data-fig="brand.name">NutriCoach</span> dans <b>Safari</b> — c'est le seul navigateur qui sait installer sur iOS.</li>
             <li>Appuie sur le bouton <b>Partager</b> (le carré avec une flèche vers le haut).</li>
             <li>Fais défiler et choisis <b>« Sur l'écran d'accueil »</b>.</li>
             <li>Appuie sur <b>Ajouter</b>.</li>
           </ol>
-          <p class="after">L'icône NutriCoach apparaît sur ton écran d'accueil, comme une application.</p>
+          <p class="after">L'icône <span data-fig="brand.name">NutriCoach</span> apparaît sur ton écran d'accueil, comme une application.</p>
         </div>
 
         <div class="ins rv" id="ins-android">
@@ -1304,7 +1303,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
             Android
           </h3>
           <ol>
-            <li>Ouvre NutriCoach dans <b>Chrome</b>.</li>
+            <li>Ouvre <span data-fig="brand.name">NutriCoach</span> dans <b>Chrome</b>.</li>
             <li>Une invitation à installer peut apparaître directement en bas de l'écran — accepte-la et c'est fini.</li>
             <li>Sinon, ouvre le <b>menu</b> (les trois points en haut à droite).</li>
             <li>Choisis <b>« Installer l'application »</b> — selon ta version de Chrome, l'entrée s'appelle « Ajouter à l'écran d'accueil ».</li>
@@ -1318,7 +1317,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
           <circle cx="10" cy="10" r="8"/><path d="M10 9v5M10 6.2v.1" stroke-linecap="round"/>
         </svg>
         <p>
-          NutriCoach n'est pas sur l'App Store ni sur le Play Store, et n'a pas d'application
+          <span data-fig="brand.name">NutriCoach</span> n'est pas sur l'App Store ni sur le Play Store, et n'a pas d'application
           à télécharger : c'est la même application web, installée depuis ton navigateur.
           Il te faut une connexion pour enregistrer un repas.
         </p>
@@ -1344,11 +1343,11 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
       </div>
       <div class="qa">
         <button aria-expanded="false"><span>Et si j'oublie de préciser une quantité ?</span><span class="chev" aria-hidden="true">+</span></button>
-        <div class="panel"><div><p>NutriCoach prend une portion standard — la quantité habituellement consommée en France, d'après l'étude INCA 3 de l'ANSES quand elle existe — et l'affiche clairement comme une estimation. Tu la corriges d'un geste (petit, moyen, grand, ou en grammes) avant d'enregistrer : rien n'entre dans ton journal sans ton accord. Pour les aliments qui se comptent — « 2 œufs », « une banane » — il convertit en grammes, avec la même mention.</p></div></div>
+        <div class="panel"><div><p><span data-fig="brand.name">NutriCoach</span> prend une portion standard — la quantité habituellement consommée en France, d'après l'étude INCA 3 de l'ANSES quand elle existe — et l'affiche clairement comme une estimation. Tu la corriges d'un geste (petit, moyen, grand, ou en grammes) avant d'enregistrer : rien n'entre dans ton journal sans ton accord. Pour les aliments qui se comptent — « 2 œufs », « une banane » — il convertit en grammes, avec la même mention.</p></div></div>
       </div>
       <div class="qa">
         <button aria-expanded="false"><span>Est-ce une application médicale ?</span><span class="chev" aria-hidden="true">+</span></button>
-        <div class="panel"><div><p>Non. NutriCoach est un outil de suivi, pas un dispositif médical et pas un avis diététique personnalisé. Les objectifs reposent sur des formules publiques standard, avec des planchers de sécurité. En cas de pathologie, de grossesse ou d'objectif de perte importante, parles-en à un professionnel de santé.</p></div></div>
+        <div class="panel"><div><p>Non. <span data-fig="brand.name">NutriCoach</span> est un outil de suivi, pas un dispositif médical et pas un avis diététique personnalisé. Les objectifs reposent sur des formules publiques standard, avec des planchers de sécurité. En cas de pathologie, de grossesse ou d'objectif de perte importante, parles-en à un professionnel de santé.</p></div></div>
       </div>
       <div class="qa">
         <button aria-expanded="false"><span>Et si je suis allergique à quelque chose ?</span><span class="chev" aria-hidden="true">+</span></button>
@@ -1360,7 +1359,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
       </div>
       <div class="qa">
         <button aria-expanded="false"><span>Faut-il une carte bancaire pour commencer ?</span><span class="chev" aria-hidden="true">+</span></button>
-        <div class="panel"><div><p>Non. La formule Découverte est gratuite et sans carte. Tu ne renseignes un moyen de paiement que si tu décides de passer à Coach.</p></div></div>
+        <div class="panel"><div><p>Non. La formule <span data-fig="plans.free.name">Gratuit</span> ne demande jamais de carte, et les <span data-fig="plans.trialDays">7</span> jours de <span data-fig="brand.paidPlan">NutriCoach+</span> offerts à l'inscription non plus : à la fin de l'essai, le compte repasse en <span data-fig="plans.free.name">Gratuit</span> tout seul, sans prélèvement.</p></div></div>
       </div>
     </div>
   </section>
@@ -1370,7 +1369,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
     <div class="final rv">
       <h2>Et si enregistrer un repas prenait dix secondes ?</h2>
       <p>Écris simplement ton prochain repas.</p>
-      <a class="btn" id="final-open" href="https://nutricoach-pearl.vercel.app">Ouvrir NutriCoach <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn" id="final-open" href="https://nutricoach-pearl.vercel.app">Ouvrir <span data-fig="brand.name">NutriCoach</span> <span class="arrow" aria-hidden="true">→</span></a>
       <p class="fine">Gratuit · Sans carte bancaire · <a href="#poche" style="color:inherit">installable sur ton téléphone</a></p>
     </div>
   </div>
@@ -1379,7 +1378,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
 <footer>
   <div class="wrap">
     <div class="foot-top">
-      <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span> NutriCoach</a>
+      <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span> <span data-fig="brand.name">NutriCoach</span></a>
       <nav class="foot-links" aria-label="Pied de page">
         <a href="#comment">Comment ça marche</a>
         <a href="#produit">Le produit</a>
@@ -1390,7 +1389,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
       </nav>
     </div>
     <p class="legal">
-      NutriCoach est un outil de suivi alimentaire. Ce n'est pas un dispositif médical et il ne remplace pas
+      <span data-fig="brand.name">NutriCoach</span> est un outil de suivi alimentaire. Ce n'est pas un dispositif médical et il ne remplace pas
       l'avis d'un professionnel de santé.<br>
       Données nutritionnelles : table Ciqual © ANSES, réutilisée sous Licence Ouverte (Etalab).
       Données produits complémentaires : Open Food Facts, sous licence ODbL.
@@ -1403,7 +1402,7 @@ footer { border-top: 1px solid var(--line); padding-block: var(--s7) var(--s8); 
      (npx tsx scripts/showcase-figures.ts --write), vérifiés par
      npm run check:landing. Ne pas modifier à la main. -->
 <script type="application/json" id="showcase-figures">
-{"target":{"calories":2100,"proteinG":130,"carbsG":220,"fatG":70},"goalAdjust":{"from":2100,"to":2250,"message":"Ton poids baisse plus rapidement que prévu. Veux-tu que je te propose un ajustement de ton objectif calorique ?"},"meals":{"breakfast":{"phrase":"J'ai mangé 2 œufs et 100 g de pain complet","lines":[{"food":"Oeuf","grams":110,"assumed":false,"counted":true,"per100Kcal":140,"kcal":154},{"food":"Pain complet","grams":100,"assumed":false,"counted":false,"per100Kcal":244,"kcal":244}],"total":{"kcal":398,"p":22,"c":45,"l":13},"left":{"kcal":1702,"p":108}},"lunch":{"phrase":"J'ai mangé 150 g de poulet, 200 g de riz et des brocolis","lines":[{"food":"Blanc de poulet cuit","grams":150,"assumed":false,"counted":false,"per100Kcal":141,"kcal":212},{"food":"Riz blanc cuit","grams":200,"assumed":false,"counted":false,"per100Kcal":145,"kcal":290},{"food":"Brocolis cuits","grams":80,"assumed":true,"counted":false,"per100Kcal":37.6,"kcal":30}],"total":{"kcal":532,"p":54,"c":66,"l":4},"left":{"kcal":1568,"p":76}},"steps":{"phrase":"J'ai mangé 150 g de poulet et du riz","lines":[{"food":"Blanc de poulet cuit","grams":150,"assumed":false,"counted":false,"per100Kcal":141,"kcal":212},{"food":"Riz blanc cuit","grams":200,"assumed":true,"counted":false,"per100Kcal":145,"kcal":290}],"total":{"kcal":502,"p":51,"c":64,"l":4},"left":{"kcal":1598,"p":79}},"dinner":{"phrase":"Ce soir, 120 g de saumon et du riz","lines":[{"food":"Saumon, cuit, sans précision (aliment moyen)","grams":120,"assumed":false,"counted":false,"per100Kcal":205,"kcal":246},{"food":"Riz blanc cuit","grams":200,"assumed":true,"counted":false,"per100Kcal":145,"kcal":290}],"total":{"kcal":536,"p":33,"c":64,"l":16},"left":{"kcal":1564,"p":97}}},"day":{"total":{"kcal":930,"p":77,"c":110,"l":17},"target":{"calories":2100,"proteinG":130,"carbsG":220,"fatG":70},"left":{"kcal":1170,"p":53},"fillPercent":{"p":59,"c":50,"l":24,"kcal":44}},"dinnerSizes":[{"size":"small","label":"petit","grams":140,"total":{"kcal":449,"p":32,"c":45,"l":16},"left":{"kcal":1651,"p":98}},{"size":"medium","label":"moyen","grams":200,"total":{"kcal":536,"p":33,"c":64,"l":16},"left":{"kcal":1564,"p":97}},{"size":"large","label":"grand","grams":280,"total":{"kcal":652,"p":36,"c":89,"l":16},"left":{"kcal":1448,"p":94}}],"suggestions":[{"name":"Poulet, riz et brocolis","kcal":603,"p":57,"c":67,"l":10,"min":15},{"name":"Cabillaud, pommes de terre et haricots verts","kcal":407,"p":36,"c":39,"l":10,"min":25},{"name":"Wrap poulet crudités","kcal":379,"p":46,"c":35,"l":4,"min":10}],"coach":{"left":{"kcal":1170,"p":53},"recipes":[{"name":"Saumon, quinoa et haricots verts","kcal":518,"p":36,"c":47,"l":18,"min":25},{"name":"Omelette et pain complet","kcal":338,"p":19,"c":27,"l":16,"min":10}],"foodFit":{"question":"Est-ce que je peux manger une pizza ?","food":"Pizza (aliment moyen)","grams":150,"kcal":350,"sentence":"150 g de Pizza (aliment moyen) ≈ 350 kcal.\nIl te reste 1 170 kcal aujourd’hui.\nÇa rentre pour une portion normale."}},"onboarding":{"phrase":"J'ai mangé 2 œufs, 100 g de pain complet et une pomme","lines":[{"food":"Oeuf","grams":110,"assumed":false,"counted":true,"per100Kcal":140,"kcal":154},{"food":"Pain complet","grams":100,"assumed":false,"counted":false,"per100Kcal":244,"kcal":244},{"food":"Pomme","grams":150,"assumed":false,"counted":true,"per100Kcal":54.9,"kcal":82}],"total":{"kcal":480,"p":23,"c":62,"l":13},"suggestions":[{"name":"Poulet, riz et brocolis","kcal":603,"p":57,"c":67,"l":10,"min":15},{"name":"Cabillaud, pommes de terre et haricots verts","kcal":407,"p":36,"c":39,"l":10,"min":25},{"name":"Wrap poulet crudités","kcal":379,"p":46,"c":35,"l":4,"min":10}]}}
+{"brand":{"name":"NutriCoach","paidPlan":"NutriCoach+","title":"NutriCoach — Dis-moi ce que tu as mangé. Je m'occupe du reste.","description":"Décris simplement tes repas. NutriCoach calcule tes calories et tes macros à partir de la table CIQUAL de l'ANSES, et t'aide à choisir quoi manger ensuite."},"plans":{"trialDays":7,"free":{"name":"Gratuit","tagline":"Pour essayer et tenir son journal.","aiPerDay":3,"historyDays":7,"suggestions":3,"features":["Profil et objectifs calories / macros","Journal alimentaire complet","Recherche d'aliments (base CIQUAL)","Ajout manuel","3 analyses en langage naturel par jour","Historique sur 7 jours","Recettes de base","3 suggestions « Que puis-je manger ? »","« D'où vient ce chiffre ? » sur chaque ligne","Conversation conservée","3 repas récurrents"]},"paid":{"name":"NutriCoach+","tagline":"Le coach qui répond, tous les jours.","monthly":"5,99","yearly":"49,99","features":["Tout ce que contient l'offre Gratuit","Analyses en langage naturel illimitées","Suggestions selon tes macros restantes","Contraintes libres : temps, ingrédients, budget calorique","Historique complet","Suivi du poids et graphiques","Recettes favorites","Ajustement d'objectif proposé selon ta courbe de poids","Bilan de la semaine","Repas récurrents illimités"]}},"home":{"tip":"Il te reste 53 g de protéines à couvrir aujourd'hui. Je peux te proposer un repas qui les apporte."},"target":{"calories":2100,"proteinG":130,"carbsG":220,"fatG":70},"goalAdjust":{"from":2100,"to":2250,"message":"Ton poids baisse plus rapidement que prévu. Veux-tu que je te propose un ajustement de ton objectif calorique ?"},"meals":{"breakfast":{"phrase":"J'ai mangé 2 œufs et 100 g de pain complet","lines":[{"food":"Oeuf","grams":110,"assumed":false,"counted":true,"per100Kcal":140,"kcal":154},{"food":"Pain complet","grams":100,"assumed":false,"counted":false,"per100Kcal":244,"kcal":244}],"total":{"kcal":398,"p":22,"c":45,"l":13},"left":{"kcal":1702,"p":108}},"lunch":{"phrase":"J'ai mangé 150 g de poulet, 200 g de riz et des brocolis","lines":[{"food":"Blanc de poulet cuit","grams":150,"assumed":false,"counted":false,"per100Kcal":141,"kcal":212},{"food":"Riz blanc cuit","grams":200,"assumed":false,"counted":false,"per100Kcal":145,"kcal":290},{"food":"Brocolis cuits","grams":80,"assumed":true,"counted":false,"per100Kcal":37.6,"kcal":30}],"total":{"kcal":532,"p":54,"c":66,"l":4},"left":{"kcal":1568,"p":76}},"steps":{"phrase":"J'ai mangé 150 g de poulet et du riz","lines":[{"food":"Blanc de poulet cuit","grams":150,"assumed":false,"counted":false,"per100Kcal":141,"kcal":212},{"food":"Riz blanc cuit","grams":200,"assumed":true,"counted":false,"per100Kcal":145,"kcal":290}],"total":{"kcal":502,"p":51,"c":64,"l":4},"left":{"kcal":1598,"p":79}},"dinner":{"phrase":"Ce soir, 120 g de saumon et du riz","lines":[{"food":"Saumon, cuit, sans précision (aliment moyen)","grams":120,"assumed":false,"counted":false,"per100Kcal":205,"kcal":246},{"food":"Riz blanc cuit","grams":200,"assumed":true,"counted":false,"per100Kcal":145,"kcal":290}],"total":{"kcal":536,"p":33,"c":64,"l":16},"left":{"kcal":1564,"p":97}}},"day":{"total":{"kcal":930,"p":77,"c":110,"l":17},"target":{"calories":2100,"proteinG":130,"carbsG":220,"fatG":70},"left":{"kcal":1170,"p":53},"fillPercent":{"p":59,"c":50,"l":24,"kcal":44}},"dinnerSizes":[{"size":"small","label":"petit","grams":140,"total":{"kcal":449,"p":32,"c":45,"l":16},"left":{"kcal":1651,"p":98}},{"size":"medium","label":"moyen","grams":200,"total":{"kcal":536,"p":33,"c":64,"l":16},"left":{"kcal":1564,"p":97}},{"size":"large","label":"grand","grams":280,"total":{"kcal":652,"p":36,"c":89,"l":16},"left":{"kcal":1448,"p":94}}],"suggestions":[{"name":"Poulet, riz et brocolis","kcal":603,"p":57,"c":67,"l":10,"min":15},{"name":"Cabillaud, pommes de terre et haricots verts","kcal":407,"p":36,"c":39,"l":10,"min":25},{"name":"Wrap poulet crudités","kcal":379,"p":46,"c":35,"l":4,"min":10}],"coach":{"question":"Que manger ce soir ?","left":{"kcal":1170,"p":53},"intro":"Il te reste 1 170 kcal.\n\nVoici ce que je te propose :","recipes":[{"name":"Tofu sauté, riz complet et légumes","kcal":758,"p":39,"c":75,"l":30,"min":20},{"name":"Poulet, riz et brocolis","kcal":603,"p":57,"c":67,"l":10,"min":15}],"foodFit":{"question":"Est-ce que je peux manger une pizza ?","food":"Pizza (aliment moyen)","grams":150,"kcal":350,"sentence":"150 g de Pizza (aliment moyen) ≈ 350 kcal.\nIl te reste 1 170 kcal aujourd’hui.\nÇa rentre pour une portion normale."}},"onboarding":{"phrase":"J'ai mangé 2 œufs, 100 g de pain complet et une pomme","lines":[{"food":"Oeuf","grams":110,"assumed":false,"counted":true,"per100Kcal":140,"kcal":154},{"food":"Pain complet","grams":100,"assumed":false,"counted":false,"per100Kcal":244,"kcal":244},{"food":"Pomme","grams":150,"assumed":false,"counted":true,"per100Kcal":54.9,"kcal":82}],"total":{"kcal":480,"p":23,"c":62,"l":13},"suggestions":[{"name":"Poulet, riz et brocolis","kcal":603,"p":57,"c":67,"l":10,"min":15},{"name":"Cabillaud, pommes de terre et haricots verts","kcal":407,"p":36,"c":39,"l":10,"min":25},{"name":"Wrap poulet crudités","kcal":379,"p":46,"c":35,"l":4,"min":10}]}}
 </script>
 <script>
 (function () {
